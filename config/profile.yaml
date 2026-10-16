@@ -1,0 +1,95 @@
+# Who I am. Every APPLY / CHECK / SKIP decision comes from this file.
+# This file is gitignored - it is yours, edit it freely.
+
+experience:
+  # Your years of professional experience.
+  years: 1.5
+  # Accept roles asking for up to (years + tolerance).
+  # 1.5 + 0.5 = 2.0, so "2+ years" roles still qualify.
+  tolerance: 0.5
+
+locations:
+  countries: [India]
+  preferred: [Bangalore, Bengaluru, Hyderabad, Pune, Chennai, Remote]
+  # Set true to allow any location through (server-side filters still apply).
+  allow_any: false
+
+roles:
+  # Title keywords that are interesting. Empty list = allow everything.
+  want:
+    - software engineer
+    - software development
+    - sde
+    - swe
+    - backend
+    - back end
+    - frontend
+    - front end
+    - full stack
+    - fullstack
+    - developer
+    - platform engineer
+    - cloud engineer
+    - devops
+    - site reliability
+    - data engineer
+    - machine learning
+    - ml engineer
+    - ai engineer
+    - applied scientist
+    - systems engineer
+    - test engineer
+    - qa engineer
+    - quality engineer
+    - automation engineer
+
+  # Title keywords that are an instant SKIP, whatever else matches.
+  avoid:
+    - sales
+    - account manager
+    - business development
+    - customer success
+    - technical support
+    - finance
+    - accounting
+    - recruiter
+    - talent acquisition
+    - human resources
+    - marketing
+    - supply chain planner
+    - materials planning
+    - logistics
+
+# Your skills. Used to show overlap with each job - never to filter.
+skills:
+  - Java
+  - Spring Boot
+  - Python
+  - C++
+  - C
+  - SQL
+  - MySQL
+  - MongoDB
+  - REST APIs
+  - Microservices
+  - Distributed Systems
+  - AWS
+  - Docker
+  - Kubernetes
+  - Git
+  - GitLab
+  - GitHub
+  - CI/CD
+  - Jenkins
+  - Linux
+  - Bash
+  - FastAPI
+  - Django
+  - LangChain
+  - LLMs
+  - Generative AI
+  - RAG
+  - Prompt Engineering
+  - Vector Databases
+  - Apache Ignite
+  - OpenTelemetry

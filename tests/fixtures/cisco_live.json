@@ -1,0 +1,1389 @@
+{
+ "refineSearch": {
+  "status": 200,
+  "hits": 15,
+  "totalHits": 15,
+  "data": {
+   "jobs": [
+    {
+     "ml_skills": [
+      "python",
+      "ai/ml development",
+      "automated testing",
+      "network monitoring",
+      "network optimization",
+      "scripting",
+      "root cause analysis",
+      "ai-driven solutions",
+      "networking frameworks",
+      "tcp/ip",
+      "routing",
+      "switching",
+      "network protocols",
+      "debugging",
+      "quality assurance",
+      "ai tools",
+      "analytical thinking",
+      "problem solving",
+      "collaboration",
+      "technical documentation"
+     ],
+     "type": "Full time",
+     "descriptionTeaser": "We are seeking an AI System Test Engineer to design and develop AI/ML-based tools for functional testing of Cisco products. You will ensure quality and stability through automated testing and collaboration with senior engineers. Ideal candidates have hands-on experience in AI/ML development and strong programming skills.",
+     "state": "",
+     "siteType": "external",
+     "RemoteType": "Hybrid",
+     "multi_category": [
+      "Product and Engineering"
+     ],
+     "reqId": "2025941",
+     "city": "Bangalore",
+     "latitude": "12.97194",
+     "multi_location": [
+      "Bangalore, India"
+     ],
+     "address": "., Bangalore- 560103, India",
+     "applyUrl": "https://cisco.wd5.myworkdayjobs.com/Cisco_Careers/job/Bangalore-India/AI-System-Test-Engineer_2025941-1/apply",
+     "ml_job_parser": {
+      "descriptionTeaser": "We are seeking an AI System Test Engineer to design and develop AI/ML-based tools for functional testing of Cisco products. You will ensure quality and stability through automated testing and collaboration with senior engineers. Ideal candidates have hands-on experience in AI/ML development and strong programming skills.",
+      "descriptionTeaser_ats": "Meet the Team The Engineering function is responsible for all engineering activities within a firm to ensure that business objectives are met. Includes the creation, development, design and improvemen",
+      "descriptionTeaser_keyword": "Meet the Team. The Engineering function is responsible for all engineering activities within a firm to ensure that business objectives are met. Includes the creation, development, design and improveme...",
+      "descriptionTeaser_first200": "Meet the Team . The Engineering function is responsible for all engineering activities within a firm to ensure that business objectives are met. Includes the creation, development, design and impro..."
+     },
+     "externalApply": false,
+     "cityState": "Bangalore",
+     "country": "India",
+     "visibilityType": "External",
+     "longitude": "77.59369",
+     "jobId": "2025941",
+     "locale": "en_GLOBAL",
+     "title": "AI System Test Engineer",
+     "jobSeqNo": "CISCISGLOBAL2025941EXTERNALENGLOBAL",
+     "postedDate": "2026-10-16T00:00:00.000+0000",
+     "dateCreated": "2026-09-17T17:45:46.642+0000",
+     "cityStateCountry": "Bangalore, India",
+     "department": "Supervisory Organization 0012287 (Srikanth Raghavan)",
+     "jobVisibility": [
+      "external",
+      "internal"
+     ],
+     "location": "Bangalore, India",
+     "category": "Product and Engineering",
+     "isMultiLocation": true,
+     "multi_location_array": [
+      {
+       "latlong": {
+        "lon": 77.59369,
+        "lat": 12.97194
+       },
+       "location": "Bangalore, India"
+      }
+     ],
+     "isMultiCategory": true,
+     "multi_category_array": [
+      {
+       "category": "Product and Engineering"
+      }
+     ],
+     "badge": ""
+    },
+    {
+     "ml_skills": [
+      "teamcenter",
+      "data modeling",
+      "python",
+      "sql",
+      "object-oriented programming",
+      "relational databases",
+      "workflow automation",
+      "generative ai tools",
+      "jira",
+      "confluence",
+      "plm systems",
+      "agile",
+      "business requirements analysis",
+      "requirements analysis",
+      "data analysis",
+      "power bi",
+      "tableau",
+      "enterprise software ecosystems",
+      "supply chain management",
+      "technical documentation",
+      "sprint validation",
+      "uat triage",
+      "ci/cd deployment",
+      "troubleshooting",
+      "stakeholder collaboration"
+     ],
+     "type": "Full time",
+     "descriptionTeaser": "Seeking an IT Software Engineer to contribute to the development and optimisation of enterprise PLM systems within a global supply chain environment. Engage in hands-on system configuration, data modelling, and workflow automation. Ideal for candidates with foundational IT experience and a strong analytical mindset.",
+     "state": "",
+     "siteType": "external",
+     "RemoteType": "Hybrid",
+     "multi_category": [
+      "Information Technology"
+     ],
+     "reqId": "2026189",
+     "city": "Bangalore",
+     "latitude": "12.97194",
+     "multi_location": [
+      "Bangalore, India"
+     ],
+     "address": "., Bangalore- 560103, India",
+     "applyUrl": "https://cisco.wd5.myworkdayjobs.com/Cisco_Careers/job/Bangalore-India/IT-Software-Engineer_2026189/apply",
+     "ml_job_parser": {
+      "descriptionTeaser": "Seeking an IT Software Engineer to contribute to the development and optimisation of enterprise PLM systems within a global supply chain environment. Engage in hands-on system configuration, data modelling, and workflow automation. Ideal for candidates with foundational IT experience and a strong analytical mindset.",
+      "descriptionTeaser_ats": "Meet the Team Join our diverse and inclusive Supply Chain IT team and be a part of one of the top Supply Chains in the world! Our team is dedicated to delivering exceptional services, tools, platform",
+      "descriptionTeaser_keyword": "Meet the Team. Join our diverse and inclusive Supply Chain IT team and be a part of one of the top Supply Chains in the world! Our team is dedicated to delivering exceptional services, tools, platform...",
+      "descriptionTeaser_first200": "Meet the Team . Join our diverse and inclusive Supply Chain IT team and be a part of one of the top Supply Chains in the world! Our team is dedicated to delivering exceptional services, tools, plat..."
+     },
+     "externalApply": false,
+     "cityState": "Bangalore",
+     "country": "India",
+     "visibilityType": "External",
+     "longitude": "77.59369",
+     "jobId": "2026189",
+     "locale": "en_GLOBAL",
+     "title": "IT Software Engineer",
+     "jobSeqNo": "CISCISGLOBAL2026189EXTERNALENGLOBAL",
+     "postedDate": "2026-10-16T00:00:00.000+0000",
+     "dateCreated": "2026-09-24T17:45:56.624+0000",
+     "cityStateCountry": "Bangalore, India",
+     "department": "Supervisory Organization 641553 (Jyoti Agrawal)",
+     "jobVisibility": [
+      "external",
+      "internal"
+     ],
+     "location": "Bangalore, India",
+     "category": "Information Technology",
+     "isMultiLocation": true,
+     "multi_location_array": [
+      {
+       "latlong": {
+        "lon": 77.59369,
+        "lat": 12.97194
+       },
+       "location": "Bangalore, India"
+      }
+     ],
+     "isMultiCategory": true,
+     "multi_category_array": [
+      {
+       "category": "Information Technology"
+      }
+     ],
+     "badge": ""
+    },
+    {
+     "ml_skills": [
+      "javascript",
+      "typescript",
+      "angular",
+      "restful apis",
+      "node.js",
+      "java",
+      "python",
+      "kubernetes",
+      "react",
+      "spring boot",
+      "oracle",
+      "kafka",
+      "jenkins",
+      "agile",
+      "b2b integrations",
+      "cloud infrastructure",
+      "genai tools",
+      "ci/cd pipelines",
+      "github",
+      "azure devops",
+      "prompt engineering",
+      "llms",
+      "root cause analysis",
+      "security patching"
+     ],
+     "type": "Full time",
+     "descriptionTeaser": "We are currently hiring an IT Software Engineer to design, develop, and deliver innovative supply chain IT solutions. You will work with modern technologies, collaborating with a skilled team to build high-quality products. Ideal candidates have hands-on experience in frontend, backend, and cloud technologies, and thrive in agile, collaborative environments.",
+     "state": "",
+     "siteType": "external",
+     "RemoteType": "Hybrid",
+     "multi_category": [
+      "Information Technology"
+     ],
+     "reqId": "2026174",
+     "city": "Bangalore",
+     "latitude": "12.97194",
+     "multi_location": [
+      "Bangalore, India"
+     ],
+     "address": "., Bangalore- 560103, India",
+     "applyUrl": "https://cisco.wd5.myworkdayjobs.com/Cisco_Careers/job/Bangalore-India/IT-Software-Engineer_2026174/apply",
+     "ml_job_parser": {
+      "descriptionTeaser": "We are currently hiring an IT Software Engineer to design, develop, and deliver innovative supply chain IT solutions. You will work with modern technologies, collaborating with a skilled team to build high-quality products. Ideal candidates have hands-on experience in frontend, backend, and cloud technologies, and thrive in agile, collaborative environments.",
+      "descriptionTeaser_ats": "Meet the TeamJoin the Supply Chain Trade and Logistics IT at Cisco and help drive innovation in our Supply Chain IT systems. We are looking for talented and motivated Full Stack Developer to join our",
+      "descriptionTeaser_keyword": "Meet the Team. Join the Supply Chain Trade and Logistics IT at Cisco and help drive innovation in our Supply Chain IT systems. We are looking for talented and motivated Full Stack Developer to join ou...",
+      "descriptionTeaser_first200": "Meet the Team. Join the Supply Chain Trade and Logistics IT at Cisco and help drive innovation in our Supply Chain IT systems. We are looking for talented and motivated Full Stack Developer to join..."
+     },
+     "externalApply": false,
+     "cityState": "Bangalore",
+     "country": "India",
+     "visibilityType": "External",
+     "longitude": "77.59369",
+     "jobId": "2026174",
+     "locale": "en_GLOBAL",
+     "title": "IT Software Engineer",
+     "jobSeqNo": "CISCISGLOBAL2026174EXTERNALENGLOBAL",
+     "postedDate": "2026-10-16T00:00:00.000+0000",
+     "dateCreated": "2026-09-24T17:45:56.600+0000",
+     "cityStateCountry": "Bangalore, India",
+     "department": "Supervisory Organization 0022042 (Ashish Verma)",
+     "jobVisibility": [
+      "external",
+      "internal"
+     ],
+     "location": "Bangalore, India",
+     "category": "Information Technology",
+     "isMultiLocation": true,
+     "multi_location_array": [
+      {
+       "latlong": {
+        "lon": 77.59369,
+        "lat": 12.97194
+       },
+       "location": "Bangalore, India"
+      }
+     ],
+     "isMultiCategory": true,
+     "multi_category_array": [
+      {
+       "category": "Information Technology"
+      }
+     ],
+     "badge": ""
+    },
+    {
+     "ml_skills": [
+      "java",
+      "j2ee",
+      "python",
+      "pl/sql",
+      "mongodb",
+      "object oriented programming",
+      "web services",
+      "json",
+      "relational database",
+      "non-relational database",
+      "data structures",
+      "algorithms",
+      "agile",
+      "devops",
+      "ci/cd pipelines",
+      "jenkins",
+      "deployment",
+      "ai-based coding",
+      "code review",
+      "unit testing",
+      "product level integration",
+      "problem solving",
+      "analytical thinking",
+      "metrics based thinking",
+      "visualization"
+     ],
+     "type": "Full time",
+     "descriptionTeaser": "Join our team as a Software Engineer and play a key role in designing and developing next-generation capabilities for our Asset and Entitlement Engineering team. Collaborate with engineers to build applications in an AI Native & Agile environment. Ideal for candidates with strong analytical skills, hands-on experience in Java, J2EE, Python, and a passion for technology and problem-solving.",
+     "state": "",
+     "siteType": "external",
+     "RemoteType": "Onsite Only",
+     "multi_category": [
+      "Product and Engineering"
+     ],
+     "reqId": "2026139",
+     "city": "Bangalore",
+     "latitude": "12.97194",
+     "multi_location": [
+      "Bangalore, India"
+     ],
+     "address": "., Bangalore- 560103, India",
+     "applyUrl": "https://cisco.wd5.myworkdayjobs.com/Cisco_Careers/job/Bangalore-India/Software-Engineer_2026139/apply",
+     "ml_job_parser": {
+      "descriptionTeaser": "Join our team as a Software Engineer and play a key role in designing and developing next-generation capabilities for our Asset and Entitlement Engineering team. Collaborate with engineers to build applications in an AI Native & Agile environment. Ideal for candidates with strong analytical skills, hands-on experience in Java, J2EE, Python, and a passion for technology and problem-solving.",
+      "descriptionTeaser_ats": "What you\u2019ll doJoin our diverse and inclusive Asset and Entitlement Engineering team under Supply Chain IT Organization and be a part of one of the top AI Native Engineering Organization in the world!",
+      "descriptionTeaser_keyword": "What you\u2019ll do. Join our diverse and inclusive Asset and Entitlement Engineering team under Supply Chain IT Organization and be a part of one of the top AI Native Engineering Organization in the world...",
+      "descriptionTeaser_first200": "What you\u2019ll do. Join our diverse and inclusive Asset and Entitlement Engineering team under Supply Chain IT Organization and be a part of one of the top AI Native Engineering Organization in the wo..."
+     },
+     "externalApply": false,
+     "cityState": "Bangalore",
+     "country": "India",
+     "visibilityType": "External",
+     "longitude": "77.59369",
+     "jobId": "2026139",
+     "locale": "en_GLOBAL",
+     "title": "Software Engineer",
+     "jobSeqNo": "CISCISGLOBAL2026139EXTERNALENGLOBAL",
+     "postedDate": "2026-10-16T00:00:00.000+0000",
+     "dateCreated": "2026-09-24T17:45:56.552+0000",
+     "cityStateCountry": "Bangalore, India",
+     "department": "Supervisory Organization 633009 (Nandini Subbaraja)",
+     "jobVisibility": [
+      "external",
+      "internal"
+     ],
+     "location": "Bangalore, India",
+     "category": "Product and Engineering",
+     "isMultiLocation": true,
+     "multi_location_array": [
+      {
+       "latlong": {
+        "lon": 77.59369,
+        "lat": 12.97194
+       },
+       "location": "Bangalore, India"
+      }
+     ],
+     "isMultiCategory": true,
+     "multi_category_array": [
+      {
+       "category": "Product and Engineering"
+      }
+     ],
+     "badge": ""
+    },
+    {
+     "ml_skills": [
+      "java",
+      "python",
+      "object-oriented programming",
+      "microservices",
+      "restful services",
+      "api management",
+      "agentic ai",
+      "retrieval augmented generation",
+      "distributed systems",
+      "apache kafka",
+      "oracle",
+      "mongodb",
+      "nosql databases",
+      "vector databases",
+      "prompt engineering",
+      "llm integration",
+      "agile",
+      "devops",
+      "security protocols",
+      "semantic protocols",
+      "test automation",
+      "playwright",
+      "selenium",
+      "cypress",
+      "uipath"
+     ],
+     "type": "Full time",
+     "descriptionTeaser": "Exciting opportunity for a Software Engineer to drive the development of AI-native solutions within Cisco's Supply Chain Fast Fulfilment IT team. Contribute to the creation of advanced AI Agents and Retrieval Augmented Generation systems. Ideal for candidates with strong programming skills and experience in scalable, enterprise-scale software development.",
+     "state": "",
+     "siteType": "external",
+     "RemoteType": "Hybrid",
+     "multi_category": [
+      "Product and Engineering"
+     ],
+     "reqId": "2026312",
+     "city": "Bangalore",
+     "latitude": "12.97194",
+     "multi_location": [
+      "Bangalore, India"
+     ],
+     "address": "., Bangalore- 560103, India",
+     "applyUrl": "https://cisco.wd5.myworkdayjobs.com/Cisco_Careers/job/Bangalore-India/Software-Engineer_2026312/apply",
+     "ml_job_parser": {
+      "descriptionTeaser": "Exciting opportunity for a Software Engineer to drive the development of AI-native solutions within Cisco's Supply Chain Fast Fulfilment IT team. Contribute to the creation of advanced AI Agents and Retrieval Augmented Generation systems. Ideal for candidates with strong programming skills and experience in scalable, enterprise-scale software development.",
+      "descriptionTeaser_ats": "Are you ready to work at the intersection of a large-scale Supply Chain and the absolute bleeding edge of AI?At Cisco, our Supply Chain Fast Fulfillment IT team is moving beyond traditional software d",
+      "descriptionTeaser_keyword": "Are you ready to work at the intersection of a large-scale Supply Chain and the absolute bleeding edge of AI? At Cisco, our Supply Chain Fast Fulfillment IT team is moving beyond traditional software...",
+      "descriptionTeaser_first200": "Are you ready to work at the intersection of a large-scale Supply Chain and the absolute bleeding edge of AI? At Cisco, our Supply Chain Fast Fulfillment IT team is moving beyond traditional softwa..."
+     },
+     "externalApply": false,
+     "cityState": "Bangalore",
+     "country": "India",
+     "visibilityType": "External",
+     "longitude": "77.59369",
+     "jobId": "2026312",
+     "locale": "en_GLOBAL",
+     "title": "Software Engineer",
+     "jobSeqNo": "CISCISGLOBAL2026312EXTERNALENGLOBAL",
+     "postedDate": "2026-10-16T00:00:00.000+0000",
+     "dateCreated": "2026-09-24T17:45:56.615+0000",
+     "cityStateCountry": "Bangalore, India",
+     "department": "Supervisory Organization 0011571 (Partha Chakraborty)",
+     "jobVisibility": [
+      "external",
+      "internal"
+     ],
+     "location": "Bangalore, India",
+     "category": "Product and Engineering",
+     "isMultiLocation": true,
+     "multi_location_array": [
+      {
+       "latlong": {
+        "lon": 77.59369,
+        "lat": 12.97194
+       },
+       "location": "Bangalore, India"
+      }
+     ],
+     "isMultiCategory": true,
+     "multi_category_array": [
+      {
+       "category": "Product and Engineering"
+      }
+     ],
+     "badge": ""
+    },
+    {
+     "ml_skills": [
+      "python",
+      "java",
+      "c++",
+      "javascript",
+      "html/css",
+      "oracle pl/sql",
+      "git",
+      "jenkins",
+      "rest apis",
+      "react js",
+      "spring boot",
+      "kubernetes",
+      "aws",
+      "oracle 19c",
+      "snowflake",
+      "splunk",
+      "secure coding",
+      "agile engineering",
+      "code review",
+      "automation",
+      "devops",
+      "analytical skills",
+      "collaboration",
+      "oracle e-business suite"
+     ],
+     "type": "Full time",
+     "descriptionTeaser": "Become part of our team and play a key role in designing and developing next-generation AI capabilities to support our architectural transformation. Contribute to technical solutions, collaborate with engineers, and apply your expertise in Python, Java, and cloud technologies. Ideal for candidates with strong analytical skills and a passion for technology.",
+     "state": "",
+     "siteType": "external",
+     "RemoteType": "Hybrid",
+     "multi_category": [
+      "Information Technology"
+     ],
+     "reqId": "2026343",
+     "city": "Bangalore",
+     "latitude": "12.97194",
+     "multi_location": [
+      "Bangalore, India"
+     ],
+     "address": "., Bangalore- 560103, India",
+     "applyUrl": "https://cisco.wd5.myworkdayjobs.com/Cisco_Careers/job/Bangalore-India/IT-Software-Engineer_2026343-1/apply",
+     "ml_job_parser": {
+      "descriptionTeaser": "Become part of our team and play a key role in designing and developing next-generation AI capabilities to support our architectural transformation. Contribute to technical solutions, collaborate with engineers, and apply your expertise in Python, Java, and cloud technologies. Ideal for candidates with strong analytical skills and a passion for technology.",
+      "descriptionTeaser_ats": "Join our diverse and inclusive Supply Chain team and be a part of one of the top Supply Chains in the world!You'll have the incredible opportunity to join us at worlds number one Supply Chain Fulfillm",
+      "descriptionTeaser_keyword": "Join our diverse and inclusive Supply Chain team and be a part of one of the top Supply Chains in the world! You'll have the incredible opportunity to join us at worlds number one Supply Chain Fulfill...",
+      "descriptionTeaser_first200": "Join our diverse and inclusive Supply Chain team and be a part of one of the top Supply Chains in the world! You'll have the incredible opportunity to join us at worlds number one Supply Chain Fulf..."
+     },
+     "externalApply": false,
+     "cityState": "Bangalore",
+     "country": "India",
+     "visibilityType": "External",
+     "longitude": "77.59369",
+     "jobId": "2026343",
+     "locale": "en_GLOBAL",
+     "title": "IT Software Engineer",
+     "jobSeqNo": "CISCISGLOBAL2026343EXTERNALENGLOBAL",
+     "postedDate": "2026-10-16T00:00:00.000+0000",
+     "dateCreated": "2026-09-28T17:45:56.549+0000",
+     "cityStateCountry": "Bangalore, India",
+     "department": "Supervisory Organization 35443 (Ramesh Shastry)",
+     "jobVisibility": [
+      "external",
+      "internal"
+     ],
+     "location": "Bangalore, India",
+     "category": "Information Technology",
+     "isMultiLocation": true,
+     "multi_location_array": [
+      {
+       "latlong": {
+        "lon": 77.59369,
+        "lat": 12.97194
+       },
+       "location": "Bangalore, India"
+      }
+     ],
+     "isMultiCategory": true,
+     "multi_category_array": [
+      {
+       "category": "Information Technology"
+      }
+     ],
+     "badge": ""
+    },
+    {
+     "ml_skills": [
+      "c/c++",
+      "java",
+      "python",
+      "data structures",
+      "algorithms",
+      "distributed systems",
+      "system design",
+      "c++",
+      "golang",
+      "cloud environments",
+      "application scalability",
+      "ai coding assistants",
+      "agile engineering",
+      "technical design",
+      "ai tools",
+      "debugging",
+      "testing",
+      "troubleshooting",
+      "coaching",
+      "collaboration",
+      "communication"
+     ],
+     "type": "Full time",
+     "descriptionTeaser": "Exciting opportunity for a Software Engineer to join our engineering team, developing infrastructure that connects billions of people, businesses, and governments. Contribute to scalable cloud applications and solve complex technical challenges. Ideal for candidates with a strong grasp of data structures, algorithms, and proficiency in C/C++, Java, Python, or Golang.",
+     "state": "",
+     "siteType": "external",
+     "RemoteType": "Hybrid",
+     "multi_category": [
+      "Product and Engineering"
+     ],
+     "reqId": "2028048",
+     "city": "Bangalore",
+     "latitude": "12.97194",
+     "multi_location": [
+      "Bangalore, India"
+     ],
+     "address": "., Bangalore- 560103, India",
+     "applyUrl": "https://cisco.wd5.myworkdayjobs.com/Cisco_Careers/job/Bangalore-India/Software-Engineer_2028048-1/apply",
+     "ml_job_parser": {
+      "descriptionTeaser": "Exciting opportunity for a Software Engineer to join our engineering team, developing infrastructure that connects billions of people, businesses, and governments. Contribute to scalable cloud applications and solve complex technical challenges. Ideal for candidates with a strong grasp of data structures, algorithms, and proficiency in C/C++, Java, Python, or Golang.",
+      "descriptionTeaser_ats": "Meet the TeamAt Cisco, we build the software that powers the global internet. Join our engineering team to develop the infrastructure that connects billions of people, businesses, and governments. You",
+      "descriptionTeaser_keyword": "Meet the Team. At Cisco, we build the software that powers the global internet. Join our engineering team to develop the infrastructure that connects billions of people, businesses, and governments. Y...",
+      "descriptionTeaser_first200": "Meet the Team. At Cisco, we build the software that powers the global internet. Join our engineering team to develop the infrastructure that connects billions of people, businesses, and governments..."
+     },
+     "externalApply": false,
+     "cityState": "Bangalore",
+     "country": "India",
+     "visibilityType": "External",
+     "longitude": "77.59369",
+     "jobId": "2028048",
+     "locale": "en_GLOBAL",
+     "title": "Software Engineer",
+     "jobSeqNo": "CISCISGLOBAL2028048EXTERNALENGLOBAL",
+     "postedDate": "2026-10-15T00:00:00.000+0000",
+     "dateCreated": "2026-10-07T08:35:49.656+0000",
+     "cityStateCountry": "Bangalore, India",
+     "department": "Firepower - Dev India 9 (Kumar Gopalakrishnan)",
+     "jobVisibility": [
+      "external",
+      "internal"
+     ],
+     "location": "Bangalore, India",
+     "category": "Product and Engineering",
+     "isMultiLocation": true,
+     "multi_location_array": [
+      {
+       "latlong": {
+        "lon": 77.59369,
+        "lat": 12.97194
+       },
+       "location": "Bangalore, India"
+      }
+     ],
+     "isMultiCategory": true,
+     "multi_category_array": [
+      {
+       "category": "Product and Engineering"
+      }
+     ],
+     "badge": ""
+    },
+    {
+     "type": "Full time",
+     "descriptionTeaser": "Join us as a Software Engineer to define, develop, and automate features for managing wireless networks. Collaborate with cross-functional teams to deliver high-quality solutions. Ideal for candidates with expertise in React JS, Ruby, and networking knowledge.",
+     "state": "",
+     "siteType": "external",
+     "RemoteType": "Hybrid",
+     "multi_category": [
+      "Product and Engineering"
+     ],
+     "reqId": "2027416",
+     "city": "Bangalore",
+     "latitude": "12.97194",
+     "multi_location": [
+      "Bangalore, India"
+     ],
+     "address": "., Bangalore- 560103, India",
+     "applyUrl": "https://cisco.wd5.myworkdayjobs.com/Cisco_Careers/job/Bangalore-India/Software-Engineer_2027416-1/apply",
+     "externalApply": false,
+     "cityState": "Bangalore",
+     "country": "India",
+     "visibilityType": "External",
+     "longitude": "77.59369",
+     "jobId": "2027416",
+     "locale": "en_GLOBAL",
+     "title": "Software Engineer",
+     "jobSeqNo": "CISCISGLOBAL2027416EXTERNALENGLOBAL",
+     "postedDate": "2026-10-13T00:00:00.000+0000",
+     "dateCreated": "2026-10-13T06:08:46.562+0000",
+     "cityStateCountry": "Bangalore, India",
+     "department": "Enterprise Networking Applications India Team 5 (Joseph Plammoottil)",
+     "jobVisibility": [
+      "external",
+      "internal"
+     ],
+     "location": "Bangalore, India",
+     "category": "Product and Engineering",
+     "ml_skills": [
+      "react js",
+      "ruby",
+      "networking knowledge",
+      "wireless domain knowledge",
+      "cypress",
+      "ruby with hook",
+      "real-time telemetry",
+      "feature development",
+      "feature validation",
+      "feature automation",
+      "collaboration",
+      "quality implementation"
+     ],
+     "ml_job_parser": {
+      "descriptionTeaser": "Join us as a Software Engineer to define, develop, and automate features for managing wireless networks. Collaborate with cross-functional teams to deliver high-quality solutions. Ideal for candidates with expertise in React JS, Ruby, and networking knowledge.",
+      "descriptionTeaser_first200": "Meet the team. Cisco Wireless, a division of Cisco Networking, is a cloud and on-prem managed IT company and leader in Wi-Fi, wireless and security. Our intuitive platform enables organizations of ...",
+      "descriptionTeaser_keyword": "Meet the team. Cisco Wireless, a division of Cisco Networking, is a cloud and on-prem managed IT company and leader in Wi-Fi, wireless and security. Our intuitive platform enables organizations of all...",
+      "descriptionTeaser_ats": "Meet the teamCisco Wireless, a division of Cisco Networking, is a cloud and on-prem managed IT company and leader in Wi-Fi, wireless and security. Our intuitive platform enables organizations of all s"
+     },
+     "isMultiLocation": true,
+     "multi_location_array": [
+      {
+       "latlong": {
+        "lon": 77.59369,
+        "lat": 12.97194
+       },
+       "location": "Bangalore, India"
+      }
+     ],
+     "isMultiCategory": true,
+     "multi_category_array": [
+      {
+       "category": "Product and Engineering"
+      }
+     ],
+     "badge": ""
+    },
+    {
+     "type": "Full time",
+     "descriptionTeaser": "Seeking a Software Engineer to design and develop high-performance system software for Cisco Meraki\u2019s Network Connectivity Team. You will focus on building scalable networking components and enhancing system debugability. Ideal for candidates with 1\u20134 years\u2019 experience and strong C/C++/Python skills.",
+     "state": "",
+     "siteType": "external",
+     "RemoteType": "Hybrid",
+     "multi_category": [
+      "Product and Engineering"
+     ],
+     "reqId": "2027309",
+     "city": "Bangalore",
+     "latitude": "12.97194",
+     "multi_location": [
+      "Bangalore, India"
+     ],
+     "address": "., Bangalore- 560103, India",
+     "applyUrl": "https://cisco.wd5.myworkdayjobs.com/Cisco_Careers/job/Bangalore-India/Software-Engineer_2027309-1/apply",
+     "externalApply": false,
+     "cityState": "Bangalore",
+     "country": "India",
+     "visibilityType": "External",
+     "longitude": "77.59369",
+     "jobId": "2027309",
+     "locale": "en_GLOBAL",
+     "title": "Software Engineer",
+     "jobSeqNo": "CISCISGLOBAL2027309EXTERNALENGLOBAL",
+     "postedDate": "2026-10-13T00:00:00.000+0000",
+     "dateCreated": "2026-10-13T09:45:41.508+0000",
+     "cityStateCountry": "Bangalore, India",
+     "department": "",
+     "jobVisibility": [
+      "external",
+      "internal"
+     ],
+     "location": "Bangalore, India",
+     "category": "Product and Engineering",
+     "ml_skills": [
+      "c/c++",
+      "networking protocols (l2/l3)",
+      "linux fundamentals",
+      "stl",
+      "python",
+      "troubleshooting",
+      "git",
+      "system software development",
+      "network fundamentals",
+      "debugging",
+      "ccna",
+      "firmware development",
+      "system scalability",
+      "system availability"
+     ],
+     "ml_job_parser": {
+      "descriptionTeaser": "Seeking a Software Engineer to design and develop high-performance system software for Cisco Meraki\u2019s Network Connectivity Team. You will focus on building scalable networking components and enhancing system debugability. Ideal for candidates with 1\u20134 years\u2019 experience and strong C/C++/Python skills.",
+      "descriptionTeaser_first200": "Meet the team. Develops software consistent with Cisco \u2018Design Thinking Principles\u2019 with a focus . Are you a visionary firmware developer with a passion for computer networking? At Cisco Meraki, we...",
+      "descriptionTeaser_keyword": "Meet the team. Develops software consistent with Cisco \u2018Design Thinking Principles\u2019 with a focus. Are you a visionary firmware developer with a passion for computer networking? At Cisco Meraki, we\u2019re...",
+      "descriptionTeaser_ats": "Meet the team:Develops software consistent with Cisco \u2018Design Thinking Principles\u2019 with a focus\u00a0Are you a visionary firmware developer with a passion for computer networking? At Cisco Meraki, we\u2019re re"
+     },
+     "isMultiLocation": true,
+     "multi_location_array": [
+      {
+       "latlong": {
+        "lon": 77.59369,
+        "lat": 12.97194
+       },
+       "location": "Bangalore, India"
+      }
+     ],
+     "isMultiCategory": true,
+     "multi_category_array": [
+      {
+       "category": "Product and Engineering"
+      }
+     ],
+     "badge": ""
+    },
+    {
+     "type": "Full time",
+     "descriptionTeaser": "Take on the role of Software Test Engineer, validating SDN Automation solutions for leading Service Provider deployments. Contribute to requirement analysis, develop test strategies, and design test lab infrastructure. Ideal for detail-oriented professionals with experience in networking, automation, and Python-based automation frameworks.",
+     "state": "",
+     "siteType": "external",
+     "RemoteType": "Hybrid",
+     "multi_category": [
+      "Product and Engineering"
+     ],
+     "reqId": "2027739",
+     "city": "Bangalore",
+     "latitude": "12.97194",
+     "multi_location": [
+      "Bangalore, India"
+     ],
+     "address": "., Bangalore- 560103, India",
+     "applyUrl": "https://cisco.wd5.myworkdayjobs.com/Cisco_Careers/job/Bangalore-India/Software-engineer_2027739-1/apply",
+     "externalApply": false,
+     "cityState": "Bangalore",
+     "country": "India",
+     "visibilityType": "External",
+     "longitude": "77.59369",
+     "jobId": "2027739",
+     "locale": "en_GLOBAL",
+     "title": "Software engineer",
+     "jobSeqNo": "CISCISGLOBAL2027739EXTERNALENGLOBAL",
+     "postedDate": "2026-10-12T00:00:00.000+0000",
+     "dateCreated": "2026-10-12T06:45:41.373+0000",
+     "cityStateCountry": "Bangalore, India",
+     "department": "Supervisory Organization 0023833 (Pramod Singh)",
+     "jobVisibility": [
+      "external",
+      "internal"
+     ],
+     "location": "Bangalore, India",
+     "category": "Product and Engineering",
+     "ml_skills": [
+      "python automation",
+      "selenium",
+      "test strategy development",
+      "test plan development",
+      "network management protocols",
+      "ui-based automation",
+      "infrastructure management",
+      "test execution",
+      "test triage",
+      "networking technologies",
+      "snmp",
+      "cli",
+      "telemetry",
+      "syslogs",
+      "genai capabilities",
+      "virtualization technologies",
+      "esxi",
+      "openstack",
+      "microservices testing",
+      "cisco sp high-end routers",
+      "ios-xr/ios-xe",
+      "igp/egp routing protocols",
+      "mpls",
+      "rsvp-te",
+      "ldp",
+      "segment routing",
+      "l2/l3vpn/mvpn",
+      "testing methodologies",
+      "full test development cycles",
+      "cross-functional collaboration"
+     ],
+     "ml_job_parser": {
+      "descriptionTeaser": "Take on the role of Software Test Engineer, validating SDN Automation solutions for leading Service Provider deployments. Contribute to requirement analysis, develop test strategies, and design test lab infrastructure. Ideal for detail-oriented professionals with experience in networking, automation, and Python-based automation frameworks.",
+      "descriptionTeaser_first200": "What You\u2019ll Do. As a Software Test Engineer, you will join a dynamic team responsible for validating SDN Automation solutions that support some of the world\u2019s leading Service Provider deployments. ...",
+      "descriptionTeaser_keyword": "What You\u2019ll Do. As a Software Test Engineer, you will join a dynamic team responsible for validating SDN Automation solutions that support some of the world\u2019s leading Service Provider deployments. You...",
+      "descriptionTeaser_ats": "Meet the TeamWe are the Service Provider Networking Application Automation team at Cisco, responsible for validating and enhancing SDN automation solutions that power some of the world\u2019s leading servi"
+     },
+     "isMultiLocation": true,
+     "multi_location_array": [
+      {
+       "latlong": {
+        "lon": 77.59369,
+        "lat": 12.97194
+       },
+       "location": "Bangalore, India"
+      }
+     ],
+     "isMultiCategory": true,
+     "multi_category_array": [
+      {
+       "category": "Product and Engineering"
+      }
+     ],
+     "badge": ""
+    },
+    {
+     "ml_skills": [
+      "java",
+      "python",
+      "go",
+      "node.js",
+      "backend development",
+      "distributed systems",
+      "sql",
+      "mongodb",
+      "cloud platforms",
+      "aws",
+      "gcp",
+      "azure",
+      "microservices architecture",
+      "problem solving",
+      "teamwork",
+      "technical documentation",
+      "ci/cd",
+      "kubernetes",
+      "docker",
+      "release management",
+      "git",
+      "scrum",
+      "apache kafka",
+      "cloud native",
+      "technical presentation"
+     ],
+     "type": "Full time",
+     "descriptionTeaser": "Become part of our team as a Software Engineer, contributing to the design and development of cloud-native solutions for Cisco\u2019s Umbrella and Secure Access products. You will work on scalable, maintainable applications and collaborate with cross-functional teams. Ideal for candidates with strong programming skills and a passion for distributed systems.",
+     "state": "",
+     "siteType": "external",
+     "RemoteType": "Hybrid",
+     "multi_category": [
+      "Product and Engineering"
+     ],
+     "reqId": "2019628",
+     "city": "Bangalore",
+     "latitude": "12.97194",
+     "multi_location": [
+      "Bangalore, India"
+     ],
+     "address": "., Bangalore- 560103, India",
+     "applyUrl": "https://cisco.wd5.myworkdayjobs.com/Cisco_Careers/job/Bangalore-India/Software-Engineer_2019628-1/apply",
+     "ml_job_parser": {
+      "descriptionTeaser": "Become part of our team as a Software Engineer, contributing to the design and development of cloud-native solutions for Cisco\u2019s Umbrella and Secure Access products. You will work on scalable, maintainable applications and collaborate with cross-functional teams. Ideal for candidates with strong programming skills and a passion for distributed systems.",
+      "descriptionTeaser_ats": "Cloud Security Engineering at Cisco drives the technology that's transforming the way customers secure their networks, and more importantly, their users.We're looking for a Full Stack Engineer to join",
+      "descriptionTeaser_keyword": "Cloud Security Engineering at Cisco drives the technology that's transforming the way customers secure their networks, and more importantly, their users. We're looking for a Full Stack Engineer to joi...",
+      "descriptionTeaser_first200": "Cloud Security Engineering at Cisco drives the technology that's transforming the way customers secure their networks, and more importantly, their users. We're looking for a Full Stack Engineer to ..."
+     },
+     "externalApply": false,
+     "cityState": "Bangalore",
+     "country": "India",
+     "visibilityType": "External",
+     "longitude": "77.59369",
+     "jobId": "2019628",
+     "locale": "en_GLOBAL",
+     "title": "Software Engineer",
+     "jobSeqNo": "CISCISGLOBAL2019628EXTERNALENGLOBAL",
+     "postedDate": "2026-10-08T00:00:00.000+0000",
+     "dateCreated": "2026-08-26T06:52:02.268+0000",
+     "cityStateCountry": "Bangalore, India",
+     "department": "Supervisory Organization 231860 (Sushil Kumar)",
+     "jobVisibility": [
+      "external",
+      "internal"
+     ],
+     "location": "Bangalore, India",
+     "category": "Product and Engineering",
+     "isMultiLocation": true,
+     "multi_location_array": [
+      {
+       "latlong": {
+        "lon": 77.59369,
+        "lat": 12.97194
+       },
+       "location": "Bangalore, India"
+      }
+     ],
+     "isMultiCategory": true,
+     "multi_category_array": [
+      {
+       "category": "Product and Engineering"
+      }
+     ],
+     "badge": ""
+    },
+    {
+     "ml_skills": [
+      "python",
+      "test automation",
+      "network testing",
+      "layer 2 switching",
+      "layer 3 routing",
+      "vlans",
+      "vtp",
+      "stp",
+      "rstp",
+      "mstetherchannel",
+      "lac",
+      "ipv4",
+      "ipv6",
+      "arp",
+      "dns",
+      "dhcpospf",
+      "eigrp",
+      "bgp",
+      "vrf",
+      "multicast",
+      "acls",
+      "qos",
+      "aaa",
+      "radius",
+      "tacacs+",
+      "high availability and redundancy",
+      "802.1x",
+      "macsec",
+      "trustsec",
+      "dhcp snooping"
+     ],
+     "type": "Full time",
+     "descriptionTeaser": "Take on the role of Software QA Engineer to validate next-generation Catalyst switching platforms and software features. Collaborate with cross-functional teams to ensure product quality through comprehensive testing and automation. Ideal for candidates with strong experience in enterprise switching, networking, and automation.",
+     "state": "",
+     "siteType": "external",
+     "RemoteType": "Onsite Only",
+     "multi_category": [
+      "Product and Engineering"
+     ],
+     "reqId": "2022394",
+     "city": "Bangalore",
+     "latitude": "12.97194",
+     "multi_location": [
+      "Bangalore, India"
+     ],
+     "address": "., Bangalore- 560103, India",
+     "applyUrl": "https://cisco.wd5.myworkdayjobs.com/Cisco_Careers/job/Bangalore-India/Software-QA-Engineer_2022394-1/apply",
+     "ml_job_parser": {
+      "descriptionTeaser": "Take on the role of Software QA Engineer to validate next-generation Catalyst switching platforms and software features. Collaborate with cross-functional teams to ensure product quality through comprehensive testing and automation. Ideal for candidates with strong experience in enterprise switching, networking, and automation.",
+      "descriptionTeaser_ats": "The Catalyst 9000 team is responsible for delivering industry-leading enterprise switching solutions that power campus, branch, and data center networks worldwide. We focus on building highly reliable",
+      "descriptionTeaser_keyword": "The Catalyst 9000 team is responsible for delivering industry-leading enterprise switching solutions that power campus, branch, and data center networks worldwide. We focus on building highly reliable...",
+      "descriptionTeaser_first200": "The Catalyst 9000 team is responsible for delivering industry-leading enterprise switching solutions that power campus, branch, and data center networks worldwide. We focus on building highly relia..."
+     },
+     "externalApply": false,
+     "cityState": "Bangalore",
+     "country": "India",
+     "visibilityType": "External",
+     "longitude": "77.59369",
+     "jobId": "2022394",
+     "locale": "en_GLOBAL",
+     "title": "Software QA Engineer",
+     "jobSeqNo": "CISCISGLOBAL2022394EXTERNALENGLOBAL",
+     "postedDate": "2026-10-05T00:00:00.000+0000",
+     "dateCreated": "2026-08-20T19:36:26.899+0000",
+     "cityStateCountry": "Bangalore, India",
+     "department": "Enterprise Switching India Team 411 (Bharathy John)",
+     "jobVisibility": [
+      "external",
+      "internal"
+     ],
+     "location": "Bangalore, India",
+     "category": "Product and Engineering",
+     "isMultiLocation": true,
+     "multi_location_array": [
+      {
+       "latlong": {
+        "lon": 77.59369,
+        "lat": 12.97194
+       },
+       "location": "Bangalore, India"
+      }
+     ],
+     "isMultiCategory": true,
+     "multi_category_array": [
+      {
+       "category": "Product and Engineering"
+      }
+     ],
+     "badge": ""
+    },
+    {
+     "ml_skills": [
+      "data pipeline development",
+      "data architecture",
+      "sql",
+      "data cleansing",
+      "data visualization tools",
+      "statistical analysis",
+      "machine learning",
+      "big data technologies",
+      "cloud data platforms",
+      "data warehousing",
+      "secure coding",
+      "unit testing",
+      "code review",
+      "data quality assurance",
+      "data governance",
+      "automation",
+      "stakeholder communication",
+      "analytical reporting"
+     ],
+     "type": "Full time",
+     "descriptionTeaser": "Exciting opportunity for a Data Engineer to design, build, and oversee technology solutions that manage and utilise structured and unstructured data. Key responsibilities include developing technical tools and programming, and supporting data architecture. Ideal for candidates with relevant experience in data engineering and a strong understanding of data sources and security requirements.",
+     "state": "",
+     "siteType": "external",
+     "RemoteType": "Hybrid",
+     "multi_category": [
+      "Product and Engineering"
+     ],
+     "reqId": "2015732",
+     "city": "Mumbai",
+     "latitude": "19.05874",
+     "multi_location": [
+      "Mumbai, India",
+      "Bangalore, India"
+     ],
+     "address": "., Mumbai- 400051, India",
+     "applyUrl": "https://cisco.wd5.myworkdayjobs.com/Cisco_Careers/job/Mumbai-India/Data-Engineer_2015732-1/apply",
+     "ml_job_parser": {
+      "descriptionTeaser": "Exciting opportunity for a Data Engineer to design, build, and oversee technology solutions that manage and utilise structured and unstructured data. Key responsibilities include developing technical tools and programming, and supporting data architecture. Ideal for candidates with relevant experience in data engineering and a strong understanding of data sources and security requirements.",
+      "descriptionTeaser_ats": "Meet the Team\u00a0Join a high-performing team that is transforming the way Cisco delivers enterprise data, analytics, and AI-driven business solutions. Our organization builds next-generation platforms th",
+      "descriptionTeaser_keyword": "Designs, builds, and oversees the deployment and operation of technology architecture, solutions, and software to capture, manage, store, and utilize structured and unstructured data from internal and...",
+      "descriptionTeaser_first200": "Designs, builds, and oversees the deployment and operation of technology architecture, solutions, and software to capture, manage, store, and utilize structured and unstructured data from internal ..."
+     },
+     "externalApply": false,
+     "cityState": "Mumbai",
+     "country": "India",
+     "visibilityType": "External",
+     "longitude": "72.84515",
+     "jobId": "2015732",
+     "locale": "en_GLOBAL",
+     "title": "Data Engineer",
+     "jobSeqNo": "CISCISGLOBAL2015732EXTERNALENGLOBAL",
+     "postedDate": "2026-09-15T00:00:00.000+0000",
+     "dateCreated": "2026-06-02T16:53:42.613+0000",
+     "cityStateCountry": "Mumbai, India",
+     "department": "Supervisory Organization 152107 (Abhijeet Garde)",
+     "jobVisibility": [
+      "external",
+      "internal"
+     ],
+     "location": "Mumbai, India",
+     "category": "Product and Engineering",
+     "isMultiLocation": true,
+     "multi_location_array": [
+      {
+       "latlong": {
+        "lon": 72.84515,
+        "lat": 19.05874
+       },
+       "location": "Mumbai, India"
+      },
+      {
+       "latlong": {
+        "lon": 77.59369,
+        "lat": 12.97194
+       },
+       "location": "Bangalore, India"
+      }
+     ],
+     "isMultiCategory": true,
+     "multi_category_array": [
+      {
+       "category": "Product and Engineering"
+      }
+     ],
+     "badge": ""
+    },
+    {
+     "ml_skills": [
+      "linux administration",
+      "unix administration",
+      "ci/cd workflows",
+      "python scripting",
+      "bash scripting",
+      "jfrog artifactory administration",
+      "docker administration",
+      "git",
+      "docker image creation",
+      "rpm package management",
+      "pypi package management",
+      "gitlfs",
+      "configuration management",
+      "puppet",
+      "nginx",
+      "haproxy",
+      "apache",
+      "agile scrum",
+      "root cause analysis",
+      "environment monitoring",
+      "security hardening",
+      "aws",
+      "kubernetes deployment",
+      "oracle database troubleshooting",
+      "postgresql database troubleshooting",
+      "ai-assisted development"
+     ],
+     "type": "Full time",
+     "descriptionTeaser": "Take on the role of DevOps Engineer to support and enhance CI/CD automation for Cisco\u2019s Enterprise IT DevOps as a Service. Contribute to developing and maintaining DevOps tools, focusing on Enterprise JFrog Artifactory. Ideal for candidates with strong Linux/Unix administration and scripting experience.",
+     "state": "",
+     "siteType": "external",
+     "RemoteType": "Hybrid",
+     "multi_category": [
+      "Product and Engineering"
+     ],
+     "reqId": "2021811",
+     "city": "Bangalore",
+     "latitude": "12.97194",
+     "multi_location": [
+      "Bangalore, India"
+     ],
+     "address": "., Bangalore- 560103, India",
+     "applyUrl": "https://cisco.wd5.myworkdayjobs.com/Cisco_Careers/job/Bangalore-India/Software-Engineer_2021811-1/apply",
+     "ml_job_parser": {
+      "descriptionTeaser": "Take on the role of DevOps Engineer to support and enhance CI/CD automation for Cisco\u2019s Enterprise IT DevOps as a Service. Contribute to developing and maintaining DevOps tools, focusing on Enterprise JFrog Artifactory. Ideal for candidates with strong Linux/Unix administration and scripting experience.",
+      "descriptionTeaser_ats": "Meet the Team\u00a0Cisco\u2019s Enterprise IT DevOps as a Service (EDaaS) team is seeking a DevOps Engineer to assist with developing, enhancing, and maintaining, CI/CD automation supporting centrally managed D",
+      "descriptionTeaser_keyword": "Meet the Team. Cisco\u2019s Enterprise IT DevOps as a Service (EDaaS) team is seeking a DevOps Engineer to assist with developing, enhancing, and maintaining, CI/CD automation supporting centrally managed...",
+      "descriptionTeaser_first200": "Meet the Team . Cisco\u2019s Enterprise IT DevOps as a Service (EDaaS) team is seeking a DevOps Engineer to assist with developing, enhancing, and maintaining, CI/CD automation supporting centrally mana..."
+     },
+     "externalApply": false,
+     "cityState": "Bangalore",
+     "country": "India",
+     "visibilityType": "External",
+     "longitude": "77.59369",
+     "jobId": "2021811",
+     "locale": "en_GLOBAL",
+     "title": "Software Engineer",
+     "jobSeqNo": "CISCISGLOBAL2021811EXTERNALENGLOBAL",
+     "postedDate": "2026-09-11T00:00:00.000+0000",
+     "dateCreated": "2026-08-13T01:28:31.952+0000",
+     "cityStateCountry": "Bangalore, India",
+     "department": "Supervisory Organization 145359 (Sesh Iyer)",
+     "jobVisibility": [
+      "external",
+      "internal"
+     ],
+     "location": "Bangalore, India",
+     "category": "Product and Engineering",
+     "isMultiLocation": true,
+     "multi_location_array": [
+      {
+       "latlong": {
+        "lon": 77.59369,
+        "lat": 12.97194
+       },
+       "location": "Bangalore, India"
+      }
+     ],
+     "isMultiCategory": true,
+     "multi_category_array": [
+      {
+       "category": "Product and Engineering"
+      }
+     ],
+     "badge": ""
+    },
+    {
+     "ml_skills": [
+      "c/c++ programming",
+      "embedded systems",
+      "wi-fi protocols",
+      "linux development",
+      "firmware development",
+      "driver development",
+      "system integration",
+      "packet analysis",
+      "wireshark",
+      "ai-assisted development tools",
+      "debugging",
+      "networking fundamentals",
+      "problem solving",
+      "analytical skills",
+      "collaboration",
+      "cross-functional teamwork",
+      "copilot",
+      "cursor",
+      "codex",
+      "claude"
+     ],
+     "type": "Full time",
+     "descriptionTeaser": "We are currently hiring a Software Engineer to develop and validate wireless features across access points, controllers, and management systems. You will contribute to full-stack software engineering, focusing on integration and automation. Ideal candidates have strong programming skills in C/C++ and Python, with a solid understanding of networking fundamentals and Wi-Fi.",
+     "state": "",
+     "siteType": "external",
+     "RemoteType": "Hybrid",
+     "multi_category": [
+      "Product and Engineering"
+     ],
+     "reqId": "2022199",
+     "city": "Bangalore",
+     "latitude": "12.97194",
+     "multi_location": [
+      "Bangalore, India"
+     ],
+     "address": "., Bangalore- 560103, India",
+     "applyUrl": "https://cisco.wd5.myworkdayjobs.com/Cisco_Careers/job/Bangalore-India/Software-Engineer_2022199-1/apply",
+     "ml_job_parser": {
+      "descriptionTeaser": "We are currently hiring a Software Engineer to develop and validate wireless features across access points, controllers, and management systems. You will contribute to full-stack software engineering, focusing on integration and automation. Ideal candidates have strong programming skills in C/C++ and Python, with a solid understanding of networking fundamentals and Wi-Fi.",
+      "descriptionTeaser_ats": "Meet The TeamThe Cisco Wireless Feature & System Engineering team builds end-to-end wireless capabilities across access points, controllers, and cloud-managed platforms. We design features that span d",
+      "descriptionTeaser_keyword": "Meet The Team. The Cisco Wireless Feature & System Engineering team builds end-to-end wireless capabilities across access points, controllers, and cloud-managed platforms. We design features that span...",
+      "descriptionTeaser_first200": "Meet The Team. The Cisco Wireless Feature & System Engineering team builds end-to-end wireless capabilities across access points, controllers, and cloud-managed platforms. We design features that s..."
+     },
+     "externalApply": false,
+     "cityState": "Bangalore",
+     "country": "India",
+     "visibilityType": "External",
+     "longitude": "77.59369",
+     "jobId": "2022199",
+     "locale": "en_GLOBAL",
+     "title": "Software Engineer",
+     "jobSeqNo": "CISCISGLOBAL2022199EXTERNALENGLOBAL",
+     "postedDate": "2026-09-02T00:00:00.000+0000",
+     "dateCreated": "2026-08-05T14:26:52.100+0000",
+     "cityStateCountry": "Bangalore, India",
+     "department": "Enterprise Networking Polaris India Team 2 (Dheeraj Manchanda)",
+     "jobVisibility": [
+      "external",
+      "internal"
+     ],
+     "location": "Bangalore, India",
+     "category": "Product and Engineering",
+     "isMultiLocation": true,
+     "multi_location_array": [
+      {
+       "latlong": {
+        "lon": 77.59369,
+        "lat": 12.97194
+       },
+       "location": "Bangalore, India"
+      }
+     ],
+     "isMultiCategory": true,
+     "multi_category_array": [
+      {
+       "category": "Product and Engineering"
+      }
+     ],
+     "badge": ""
+    }
+   ],
+   "aggregations": [
+    {
+     "field": "raasJobRequisitionType",
+     "value": {
+      "Professional": 288,
+      "Entry Level Talent": 15,
+      "Executive": 1,
+      "Intern": 0,
+      "Co-Op": 0,
+      "Apprentice": 0
+     }
+    },
+    {
+     "field": "country",
+     "value": {
+      "United States of America": 64,
+      "India": 15,
+      "Netherlands": 6,
+      "United Kingdom": 6,
+      "Singapore": 5,
+      "Canada": 4,
+      "Australia": 3,
+      "Ireland": 3,
+      "Japan": 3,
+      "Norway": 3,
+      "Sweden": 3,
+      "Taiwan": 3,
+      "Germany": 2,
+      "Malaysia": 2,
+      "Poland": 2,
+      "Spain": 2,
+      "Switzerland": 2,
+      "Czechia": 1,
+      "France": 1,
+      "Israel": 1,
+      "Italy": 1,
+      "Saudi Arabia": 1,
+      "Vietnam": 1
+     }
+    },
+    {
+     "field": "RemoteType",
+     "value": {
+      "Hybrid": 13,
+      "Onsite Only": 2
+     }
+    },
+    {
+     "field": "city",
+     "value": {
+      "Bangalore": 15,
+      "Mumbai": 1
+     }
+    },
+    {
+     "field": "state",
+     "value": {
+      "Unspecified": 15
+     }
+    },
+    {
+     "field": "type",
+     "value": {
+      "Full time": 15
+     }
+    },
+    {
+     "field": "category",
+     "value": {
+      "Product and Engineering": 12,
+      "Information Technology": 3
+     }
+    }
+   ],
+   "SEARCH_CONFIG": {
+    "contextualSearch": false,
+    "isSuggestionsEnabled": true
+   },
+   "suggestions": {},
+   "ui_skills_selection": null,
+   "ui_selections": {
+    "raasJobRequisitionType": [
+     "Entry Level Talent",
+     "Intern",
+     "Co-Op",
+     "Apprentice"
+    ],
+    "country": [
+     "India"
+    ]
+   }
+  },
+  "eid": {
+   "trialIndex": -1,
+   "eid": "6ad2a841456172075b0794bb",
+   "searchType": "location",
+   "isMultiLingualVectorApplied": false,
+   "query": "India",
+   "variant": 0,
+   "banditId": "",
+   "keywordLanguage": "en"
+  }
+ }
+}

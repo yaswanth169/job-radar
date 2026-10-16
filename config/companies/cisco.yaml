@@ -1,0 +1,38 @@
+# Cisco - Phenom People career site.
+# Verified: the search API answers with no cookies, no JWT and no CSRF token.
+
+name: Cisco
+adapter: phenom
+enabled: true
+
+base_url: https://careers.cisco.com
+ref_num: CISCISGLOBAL
+locale_path: global/en
+lang: en_global
+
+# How often to poll, in seconds. 300 = every 5 minutes.
+poll_seconds: 300
+
+# Filters Cisco applies server-side, so noise never reaches us.
+# raasJobRequisitionType is Cisco's own "Early Careers" classification.
+filters:
+  country:
+    - India
+  raasJobRequisitionType:
+    - Entry Level Talent
+    - Intern
+    - Co-Op
+    - Apprentice
+
+# Free-text search. Empty string = every job matching the filters above.
+keywords: ""
+
+# Max jobs to pull per poll.
+page_size: 100
+
+# Fetch each NEW job's full description before judging it.
+# The search API only returns a ~300 char marketing teaser, which rarely
+# states the experience requirement. Measured on Cisco: this turns 10 of 15
+# "Not stated" verdicts into concrete ranges. Costs one extra request per
+# new job - a routine poll with nothing new still costs a single request.
+fetch_details: true

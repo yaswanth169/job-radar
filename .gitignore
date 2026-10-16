@@ -1,0 +1,16 @@
+# Secrets - these live in GitHub Actions Secrets, never in the repo
+.env
+.env.bak
+
+# Local only
+.venv/
+venv/
+__pycache__/
+*.py[cod]
+.DS_Store
+data/errors.log
+
+# NOTE: data/radar.db and config/profile.yaml ARE committed on purpose.
+# The workflow needs them: the database is how dedup survives between
+# runs, and the profile is what every verdict is based on. Neither
+# contains credentials or personal contact details.

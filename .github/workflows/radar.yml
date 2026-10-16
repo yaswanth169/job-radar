@@ -1,0 +1,90 @@
+name: Job Radar
+
+on:
+  schedule:
+    # GitHub's minimum interval. Treat it as "about every 5 minutes" -
+    # scheduled runs sit in a shared queue and are often delayed.
+    - cron: "*/5 * * * *"
+  workflow_dispatch:
+
+# Never let two runs touch the committed state at once.
+concurrency:
+  group: job-radar-state
+  cancel-in-progress: false
+
+permissions:
+  contents: write     # needed to commit the seen-jobs database back
+
+jobs:
+  poll:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+
+    steps:
+      - name: Checkout (brings data/radar.db with it)
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+          cache: pip
+
+      - name: Install dependencies
+        run: pip install -r requirements.txt
+
+      - name: Fingerprint the state before polling
+        id: before
+        run: |
+          if [ -f data/radar.db ]; then
+            H=$(sqlite3 data/radar.db \
+              "SELECT job_key||':'||notified FROM jobs ORDER BY job_key" | shasum | cut -d' ' -f1)
+          else
+            H="none"
+          fi
+          echo "hash=$H" >> "$GITHUB_OUTPUT"
+          echo "State fingerprint: $H"
+
+      - name: Poll Cisco and alert
+        env:
+          TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
+          TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
+        run: |
+          if [ ! -f data/radar.db ]; then
+            # No state at all: seed silently rather than firing one alert
+            # per currently-open job. Self-healing, never spams.
+            echo "::warning::No state found - seeding silently instead of alerting"
+            python -m src seed
+          else
+            python -m src poll
+          fi
+
+      - name: Commit state only if the job set changed
+        run: |
+          # Run history is meaningless across ephemeral runners and would
+          # otherwise dirty the file on every single poll.
+          sqlite3 data/radar.db "DELETE FROM runs;" || true
+
+          AFTER=$(sqlite3 data/radar.db \
+            "SELECT job_key||':'||notified FROM jobs ORDER BY job_key" | shasum | cut -d' ' -f1)
+          echo "After:  $AFTER"
+          echo "Before: ${{ steps.before.outputs.hash }}"
+
+          if [ "$AFTER" = "${{ steps.before.outputs.hash }}" ]; then
+            echo "Nothing changed - no commit. (Typical: ~287 of 288 daily runs.)"
+            exit 0
+          fi
+
+          git config user.name  "job-radar[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add -f data/radar.db
+          git commit -m "radar: state update [skip ci]"
+
+          # Another run may have pushed while this one was working.
+          for i in 1 2 3; do
+            git pull --rebase --autostash && git push && exit 0
+            echo "push attempt $i failed, retrying"
+            sleep 5
+          done
+          echo "::error::could not push state - next run may re-alert"
+          exit 1
