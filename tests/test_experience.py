@@ -46,6 +46,34 @@ CASES = [
     ("Candidates should bring 2 years experience in Python", S.STATED, 2.0,  None),
     ("Looking for someone with over 5 years of experience",  S.STATED, 5.0,  None),
     ("6 months of relevant experience is a plus",            S.STATED, 0.5,  None),
+    # --- the floor is the lowest number stated, whichever phrasing it uses.
+    # Each of these mixes two pattern classes; reading only the first class
+    # that matched reported the higher number and skipped the job.
+    ("Minimum 5 years of experience with distributed systems. "
+     "1+ years of hands-on Python experience.",              S.STATED, 1.0,  None),
+    ("Bachelor degree and 5 years of relevant experience. OR "
+     "Master degree and 2+ years of relevant experience.",   S.STATED, 2.0,  None),
+    ("At least 3 years of experience required. 6 months of "
+     "relevant experience with Kubernetes.",                 S.STATED, 0.5,  None),
+    # --- a company bragging about its age is not a requirement.
+    # The marketing copy around these says "experiences" (customer
+    # experiences), which is enough to satisfy the proximity check, so
+    # proximity alone cannot tell them apart from a real floor.
+    ("PayPal has been revolutionizing commerce globally for more than "
+     "25 years, building experiences for customers.",        S.UNKNOWN, None, None),
+    ("Founded over 30 years ago, we craft experiences that scale.",
+                                                             S.UNKNOWN, None, None),
+    ("A leader with 40 years of innovation behind every experience "
+     "we ship.",                                             S.UNKNOWN, None, None),
+    # ...but the boilerplate must not swallow a real floor beside it.
+    ("PayPal has been revolutionizing commerce globally for more than "
+     "25 years, building experiences. Requires 1+ years relevant "
+     "experience in site reliability.",                      S.STATED, 1.0,  None),
+    ("Our company has been growing fast. Minimum 2 years of "
+     "experience required.",                                 S.STATED, 2.0,  None),
+    # "more than N years" is still a requirement when nothing says history
+    ("The role requires more than 3 years of experience in "
+     "distributed systems.",                                 S.STATED, 3.0,  None),
 ]
 
 def run():

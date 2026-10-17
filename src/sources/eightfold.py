@@ -18,9 +18,12 @@ Phenom, and the whole design follows from them:
      India, 50 jobs spans about three days of postings, so nothing can
      scroll out of the window between two 5-minute polls.
 
-  3. The search response carries no description at all. The full JD is in
-     the job page as a schema.org JobPosting blob, which is a documented
-     format and far steadier than scraping the page's markup.
+  3. The search response carries no description at all. The full JD comes
+     from position_details, the same endpoint the site's own job page
+     calls: ~16 KB of JSON against ~308 KB of rendered HTML, and nothing
+     that breaks the next time they restyle the page. It is keyed by the
+     internal position id (Job.external_ref), not the requisition number
+     shown to applicants.
 
 The older /api/apply/v2/jobs endpoint most Eightfold tenants expose is
 disabled here - it answers 403 "Not authorized for PCSX". /api/pcsx/search
@@ -29,14 +32,13 @@ is what the site itself calls, and it needs no cookie or token.
 
 from __future__ import annotations
 
-import json
 import logging
 import re
 import time
 from html import unescape
 from typing import Any, Dict, List, Optional
 
-from src.http import get_json, get_text
+from src.http import get_json
 from src.models import CompanyConfig, Job
 from src.sources.base import BaseSource
 
@@ -48,17 +50,13 @@ DEFAULT_MAX_PAGES = 5
 # but spacing them keeps us comfortably under whatever the limit is.
 PAGE_PAUSE = 0.5
 
-_LD_JSON = re.compile(
-    r'<script[^>]*type="application/ld\+json"[^>]*>\s*(\{.*?\})\s*</script>',
-    re.S,
-)
-
 
 class EightfoldSource(BaseSource):
     def __init__(self, config: CompanyConfig):
         super().__init__(config)
         self.base = config.base_url.rstrip("/")
         self.endpoint = f"{self.base}/api/pcsx/search"
+        self.details_endpoint = f"{self.base}/api/pcsx/position_details"
         self.domain = config.extra.get("domain") or _domain_of(self.base)
         self.max_pages = int(config.extra.get("max_pages") or DEFAULT_MAX_PAGES)
 
@@ -139,16 +137,20 @@ class EightfoldSource(BaseSource):
         )
 
     def enrich(self, job: Job) -> Job:
-        """Pull the full JD out of the job page's JobPosting blob.
+        """Pull the full JD from the position_details endpoint.
 
         Unlike Phenom there is no teaser to fall back on, so a failure here
         leaves the job with no description at all - which the verdict engine
         correctly reports as UNKNOWN rather than guessing.
         """
-        if not self.config.fetch_details or not job.job_url:
+        if not self.config.fetch_details or not job.external_ref:
             return job
         try:
-            html = get_text(job.job_url, headers={"Accept": "text/html"})
+            data = get_json(
+                self.details_endpoint,
+                {"position_id": job.external_ref, "domain": self.domain},
+                self._headers(),
+            )
         except Exception as exc:
             logger.warning(
                 "%s: could not load JD for %s (%s): %s",
@@ -156,41 +158,24 @@ class EightfoldSource(BaseSource):
             )
             return job
 
-        record = _job_posting_ld(html)
-        if not record:
-            logger.debug("%s: no JobPosting blob on %s", self.name, job.job_url)
-            return job
-
-        full = _to_text(str(record.get("description") or ""))
+        record = (data or {}).get("data") or {}
+        full = _to_text(str(record.get("jobDescription") or ""))
         if len(full) < 200:
+            logger.debug("%s: no usable JD for %s", self.name, job.job_id)
             return job
 
         job.description = full
         job.detail_fetched = True
-        if not job.employment_type:
-            job.employment_type = str(record.get("employmentType") or "")
         if not job.posted_date:
-            job.posted_date = str(record.get("datePosted") or "")[:10]
+            job.posted_date = _date_of(record.get("postedTs"))
         return job
-
-
-def _job_posting_ld(html: str) -> Optional[Dict[str, Any]]:
-    """The schema.org JobPosting block, if the page carries one."""
-    for match in _LD_JSON.finditer(html or ""):
-        try:
-            data = json.loads(match.group(1))
-        except ValueError:
-            continue
-        if isinstance(data, dict) and data.get("@type") == "JobPosting":
-            return data
-    return None
 
 
 def _to_text(text: str) -> str:
     """Flatten the JD to readable text.
 
-    Qualcomm's description is markdown-ish with some HTML mixed in, so both
-    get stripped before the experience parser sees it.
+    jobDescription comes back as markup with some markdown mixed in, so
+    both get stripped before the experience parser sees it.
     """
     if not text:
         return ""

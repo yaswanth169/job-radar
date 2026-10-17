@@ -8,7 +8,7 @@ from unittest import mock
 from src.matching.verdict import evaluate
 from src.models import CompanyConfig, Job
 from src.profile import load_profile
-from src.sources.eightfold import EightfoldSource, _job_posting_ld, _to_text
+from src.sources.eightfold import EightfoldSource, _to_text
 
 PASSED, FAILED = [], []
 
@@ -80,36 +80,68 @@ def test_location_filter_is_sent():
     check("domain sent", seen.get("domain") == "qualcomm.com")
 
 
-def test_jd_extracted_from_json_ld():
-    html = (
-        '<html><head><script type="application/ld+json">'
-        '{"@context":"http://schema.org","@type":"WebSite","name":"ignore me"}'
-        '</script><script type="application/ld+json">'
-        '{"@context":"http://schema.org","@type":"JobPosting","employmentType":"FULL_TIME",'
-        '"description":"Minimum Qualifications: Bachelor degree and 2+ years of relevant work '
-        'experience. OR Master degree and 1+ year of relevant work experience. ' + ("padding. " * 30) + '"}'
-        "</script></head><body></body></html>"
+def _detail_response(description):
+    return {"status": 200, "data": {"jobDescription": description, "postedTs": 1760572800}}
+
+
+def _job(external_ref="446718674553"):
+    return Job(company="Qualcomm", job_id="1", title="Engineer", apply_url="",
+               job_url="https://careers.qualcomm.com/careers/job/1",
+               external_ref=external_ref)
+
+
+def test_jd_pulled_from_position_details():
+    desc = (
+        "<h2><b>Minimum Qualifications:</b></h2><p>Bachelor degree and 2+ years of relevant "
+        "work experience. OR Master degree and 1+ year of relevant work experience. "
+        + ("padding. " * 30) + "</p>"
     )
-    job = Job(company="Qualcomm", job_id="1", title="Engineer", apply_url="",
-              job_url="https://careers.qualcomm.com/careers/job/1")
-    with mock.patch("src.sources.eightfold.get_text", lambda *a, **k: html):
+    job = _job()
+    seen = {}
+
+    def fake_get_json(url, params=None, headers=None, *a, **k):
+        seen["url"] = url
+        seen.update(params or {})
+        return _detail_response(desc)
+
+    with mock.patch("src.sources.eightfold.get_json", fake_get_json):
         EightfoldSource(config()).enrich(job)
-    check("picks the JobPosting blob, not the first script", "Minimum Qualifications" in job.description)
+
+    check("calls position_details", seen.get("url", "").endswith("/api/pcsx/position_details"))
+    check("keyed by the internal position id", seen.get("position_id") == "446718674553")
+    check("domain sent with the detail call", seen.get("domain") == "qualcomm.com")
+    check("markup stripped out of the JD", "<h2>" not in job.description)
+    check("JD text retained", "Minimum Qualifications" in job.description)
     check("detail_fetched set", job.detail_fetched is True)
-    check("employmentType carried over", job.employment_type == "FULL_TIME")
+    check("postedTs used when search gave none", job.posted_date == "2025-10-16")
 
 
-def test_enrich_survives_a_missing_blob():
-    job = Job(company="Qualcomm", job_id="1", title="Engineer", apply_url="",
-              job_url="https://careers.qualcomm.com/careers/job/1")
-    with mock.patch("src.sources.eightfold.get_text", lambda *a, **k: "<html>nothing</html>"):
+def test_enrich_needs_the_internal_position_id():
+    """displayJobId is not a position id - calling with it 404s, so skip."""
+    job = _job(external_ref="")
+    called = []
+
+    with mock.patch("src.sources.eightfold.get_json", lambda *a, **k: called.append(1)):
         EightfoldSource(config()).enrich(job)
-    check("no blob -> no crash, no description", job.detail_fetched is False)
+    check("no position id -> no request at all", not called)
+    check("no position id -> not marked fetched", job.detail_fetched is False)
+
+
+def test_enrich_survives_a_bad_response():
+    job = _job()
+    with mock.patch("src.sources.eightfold.get_json", lambda *a, **k: {"data": {}}):
+        EightfoldSource(config()).enrich(job)
+    check("empty payload -> no crash, no description", job.detail_fetched is False)
+
+    with mock.patch("src.sources.eightfold.get_json",
+                    lambda *a, **k: _detail_response("too short")):
+        EightfoldSource(config()).enrich(job)
+    check("stub JD rejected as unusable", job.detail_fetched is False)
 
     def boom(*a, **k):
         raise OSError("network down")
 
-    with mock.patch("src.sources.eightfold.get_text", boom):
+    with mock.patch("src.sources.eightfold.get_json", boom):
         EightfoldSource(config()).enrich(job)
     check("fetch failure -> no crash", job.detail_fetched is False)
 
@@ -175,8 +207,9 @@ for fn in [
     test_pagination_respects_max_pages,
     test_stops_early_when_results_run_out,
     test_location_filter_is_sent,
-    test_jd_extracted_from_json_ld,
-    test_enrich_survives_a_missing_blob,
+    test_jd_pulled_from_position_details,
+    test_enrich_needs_the_internal_position_id,
+    test_enrich_survives_a_bad_response,
     test_lowest_minimum_wins_on_a_real_jd,
     test_an_explicit_range_outranks_the_degree_floors,
     test_want_list_override_is_what_lets_qualcomm_through,

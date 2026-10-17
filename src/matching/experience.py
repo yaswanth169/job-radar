@@ -35,8 +35,11 @@ _RANGE_PATTERNS: List[Tuple[re.Pattern, str]] = [
     (re.compile(rf"{NUM}\s*\+?\s*(?:-|to|through)\s*{NUM}\s*\+?\s*{YEARS}"), "range"),
 ]
 
+# (pattern, label, needs_proximity). "plain" and "months" spell out
+# "experien" inside the pattern, so they are self-evidencing; the rest are
+# bare numbers that only count as a requirement if experience is mentioned
+# nearby.
 _MIN_PATTERNS: List[Tuple[re.Pattern, str, bool]] = [
-    # (pattern, label, trusted_without_proximity)
     # "minimum 2 years", "at least 1 year", "no less than 3 years"
     (re.compile(
         rf"(?:minimum|min\.?|at\s*least|atleast|no\s*less\s*than|more\s*than|over|upwards\s*of)"
@@ -47,11 +50,38 @@ _MIN_PATTERNS: List[Tuple[re.Pattern, str, bool]] = [
     (re.compile(
         rf"{NUM}\s*{YEARS}\s*(?:of\s+)?"
         rf"(?:relevant\s+|professional\s+|industry\s+|work\s+|hands[\s-]on\s+)?experien"), "plain", True),
-    # bare "4 years" - only counts when "experience" is nearby
-    (re.compile(rf"{NUM}\s*{YEARS}"), "bare", False),
     # "6 months of experience"
     (re.compile(rf"{NUM}\s*months?\s*(?:of\s+)?(?:relevant\s+)?experien"), "months", True),
 ]
+
+# Last resort: a bare "4 years" with no qualifying word at all. Consulted
+# only when every pattern above came up empty, because it re-matches every
+# number they do - including the ones they deliberately threw away.
+_BARE_PATTERN: Tuple[re.Pattern, str, bool] = (
+    re.compile(rf"{NUM}\s*{YEARS}"), "bare", True,
+)
+
+# Phrases that mean the employer is describing its own age, not asking for
+# years from you: "PayPal has been revolutionizing commerce for more than
+# 25 years". The surrounding marketing copy usually mentions "experiences"
+# (as in customer experiences), which is enough to satisfy the proximity
+# check, so proximity alone cannot tell these apart from a real floor.
+_COMPANY_HISTORY = re.compile(
+    r"(?:has|have|had)\s+been\b"
+    r"|\bfounded\b|\bestablished\s+in\b|\bsince\s+(?:19|20)\d{2}\b"
+    r"|\b(?:years?|yrs?)\s+of\s+(?:innovation|history|excellence|leadership"
+    r"|operation|growth|heritage|service)\b"
+    r"|\bour\s+(?:history|journey|legacy|story)\b"
+    r"|\b(?:celebrating|marking)\s+\d+\s*(?:years?|yrs?)\b"
+)
+HISTORY_WINDOW = 120
+
+# A match containing one of these is unambiguously a requirement - nobody
+# writes "the company has been around for a minimum of 25 years" - so it
+# is exempt from the company-history check above.
+_HARD_REQUIREMENT = re.compile(
+    r"\b(?:minimum|min\.?|at\s*least|atleast|no\s*less\s*than)\b"
+)
 
 _EARLY_MARKERS = re.compile(
     r"\b("
@@ -92,6 +122,28 @@ def _near_experience(text: str, start: int, end: int) -> bool:
     return "experien" in window or re.search(r"\bexp\b", window) is not None
 
 
+def _is_company_history(text: str, start: int, end: int) -> bool:
+    """True when this number is the employer's age, not a requirement.
+
+    Scoped to the sentence the number sits in, not a fixed window. The
+    giveaway sits on one side or the other - "founded ... 30 years ago"
+    before, "40 years of innovation" after - but always in the same
+    sentence, so a real floor in the next one is never dragged down
+    with it.
+    """
+    before = text[max(0, start - HISTORY_WINDOW):start]
+    cut = max(before.rfind(c) for c in ".!?;:")
+    if cut != -1:
+        before = before[cut + 1:]
+
+    after = text[end:end + HISTORY_WINDOW]
+    stop = min((i for i in (after.find(c) for c in ".!?;:") if i != -1), default=-1)
+    if stop != -1:
+        after = after[:stop]
+
+    return _COMPANY_HISTORY.search(before + text[start:end] + after) is not None
+
+
 def _evidence(original: str, norm: str, start: int, end: int) -> str:
     """A readable snippet around the match, in the job's original casing.
 
@@ -109,6 +161,42 @@ def _evidence(original: str, norm: str, start: int, end: int) -> str:
     if hi < len(display):
         snippet = snippet + "..."
     return snippet
+
+
+def _lowest_match(
+    text: str,
+    norm: str,
+    entry: Tuple[re.Pattern, str, bool],
+    source_field: str,
+    best: Optional[ExperienceRequirement],
+) -> Optional[ExperienceRequirement]:
+    """Fold one pattern class into the running lowest minimum.
+
+    Keeping the lowest is deliberate: JDs list a hard floor in the
+    qualifications and nice-to-haves further down, and the floor is the
+    only number that actually gates you.
+    """
+    pattern, label, needs_proximity = entry
+    for m in pattern.finditer(norm):
+        if needs_proximity and not _near_experience(norm, m.start(), m.end()):
+            # "3+ years" with no mention of experience anywhere near is
+            # usually describing a product, not a requirement.
+            continue
+        if (not _HARD_REQUIREMENT.search(m.group(0))
+                and _is_company_history(norm, m.start(), m.end())):
+            continue
+        value = float(m.group(1))
+        if label == "months":
+            value = value / _MONTHS_PER_YEAR
+        candidate = ExperienceRequirement(
+            state=ExperienceState.STATED,
+            min_years=round(value, 2),
+            evidence=_evidence(text, norm, m.start(), m.end()),
+            source_field=source_field,
+        )
+        if best is None or (candidate.min_years or 0) < (best.min_years or 0):
+            best = candidate
+    return best
 
 
 def parse_experience(text: str, source_field: str = "description") -> ExperienceRequirement:
@@ -140,31 +228,15 @@ def parse_experience(text: str, source_field: str = "description") -> Experience
     # 2. Explicit entry-level language, before single numbers.
     early = _EARLY_MARKERS.search(norm)
 
-    # 3. Single-sided minimums.
+    # 3. Single-sided minimums. Every pattern class is weighed, not just
+    #    the first one that happens to hit: a JD saying "minimum 5 years"
+    #    in one bullet and "1+ years" in another has a floor of 1, and
+    #    stopping at the first class would report 5 and skip the job.
     best: Optional[ExperienceRequirement] = None
-    for pattern, label, trusted in _MIN_PATTERNS:
-        for m in pattern.finditer(norm):
-            if not trusted and not _near_experience(norm, m.start(), m.end()):
-                continue
-            if trusted and label in ("plus", "minimum") and not _near_experience(norm, m.start(), m.end()):
-                # "3+ years" with no mention of experience anywhere near is
-                # usually describing a product, not a requirement.
-                continue
-            value = float(m.group(1))
-            if label == "months":
-                value = value / _MONTHS_PER_YEAR
-            candidate = ExperienceRequirement(
-                state=ExperienceState.STATED,
-                min_years=round(value, 2),
-                evidence=_evidence(text, norm, m.start(), m.end()),
-                source_field=source_field,
-            )
-            # Keep the lowest stated minimum: JDs often list a hard floor
-            # first and nice-to-haves after, and the floor is what gates you.
-            if best is None or (candidate.min_years or 0) < (best.min_years or 0):
-                best = candidate
-        if best is not None:
-            break
+    for entry in _MIN_PATTERNS:
+        best = _lowest_match(text, norm, entry, source_field, best)
+    if best is None:
+        best = _lowest_match(text, norm, _BARE_PATTERN, source_field, best)
 
     if best is not None:
         if best.min_years is not None and best.min_years >= _SENIOR_THRESHOLD:
