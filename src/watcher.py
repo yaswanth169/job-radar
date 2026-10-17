@@ -60,22 +60,31 @@ def run_pass(
     result.fetched = len(jobs)
     fresh: List[dict] = []
 
-    for job in jobs:
-        known = store.is_known(job.key)
+    # One lookup for the whole batch. Against a remote store this is the
+    # difference between 1 request per poll and one per job.
+    try:
+        known = store.known_verdicts(config.name)
+    except Exception as exc:
+        result.error = f"state unavailable: {str(exc)[:200]}"
+        logger.error("%s: cannot read state, skipping pass: %s", config.name, exc)
+        return result
 
-        if known:
+    for job in jobs:
+        stored_verdict = known.get(job.key)
+
+        if stored_verdict:
             # Known jobs are deliberately not re-enriched, so judging them
             # again from the teaser would understate them. Report the
-            # verdict we stored when we had the full JD in hand.
-            stored = store.verdict_of(job.key)
-            if stored:
-                result.by_verdict[stored] = result.by_verdict.get(stored, 0) + 1
-                continue
+            # verdict we stored when we had the full JD in hand - already
+            # in hand from the batch lookup, so no extra request.
+            result.by_verdict[stored_verdict] = result.by_verdict.get(stored_verdict, 0) + 1
+            continue
+        known_flag = job.key in known
 
         # Only a job we have never seen earns the extra detail request. The
         # search API's teaser rarely states an experience requirement; the
         # full JD usually does, and that is what the verdict turns on.
-        if not known:
+        if not known_flag:
             try:
                 source.enrich(job)
             except Exception as exc:
@@ -86,7 +95,7 @@ def run_pass(
         match = evaluate(job, profile)
         result.by_verdict[match.verdict.value] = result.by_verdict.get(match.verdict.value, 0) + 1
 
-        if known:
+        if known_flag:
             continue
         result.new_jobs += 1
 
@@ -97,7 +106,7 @@ def run_pass(
             fresh.append(_job_dict(job, match))
 
     if seed_only:
-        store.log_run(config.name, result.fetched, result.new_jobs, 0)
+        store.log_run(config.name, result.fetched, result.new_jobs, 0, result.enriched)
         return result
 
     # Anything saved earlier but never delivered gets another chance.
@@ -116,7 +125,10 @@ def run_pass(
         if missing:
             logger.warning("%d alert(s) undelivered, queued for next cycle", missing)
 
-    store.log_run(config.name, result.fetched, result.new_jobs, result.alerted)
+    store.log_run(
+        config.name, result.fetched, result.new_jobs,
+        result.alerted, result.enriched,
+    )
     return result
 
 

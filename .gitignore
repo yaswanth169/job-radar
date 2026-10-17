@@ -14,3 +14,4 @@ data/errors.log
 # The workflow needs them: the database is how dedup survives between
 # runs, and the profile is what every verdict is based on. Neither
 # contains credentials or personal contact details.
+data/radar.db

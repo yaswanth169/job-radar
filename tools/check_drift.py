@@ -4,7 +4,10 @@ The whole point of trialling GitHub first is to find out whether its
 scheduling is good enough for this. Run this after the workflow has been
 live for a few hours and it will tell you with real numbers.
 
-    python tools/check_drift.py <owner>/<repo>
+    python tools/check_drift.py <owner>/<repo> [event]
+
+Defaults to measuring repository_dispatch (Supabase pg_cron -> GitHub).
+Pass "schedule" to measure the fallback cron instead.
 
 Public repos need no authentication. For a private repo, set GITHUB_TOKEN.
 """
@@ -39,11 +42,13 @@ def main() -> int:
         return 2
     repo = sys.argv[1].strip().rstrip("/").replace("https://github.com/", "")
 
-    runs = [r for r in fetch_runs(repo) if r.get("event") == "schedule"]
+    event = sys.argv[2] if len(sys.argv) > 2 else "repository_dispatch"
+    runs = [r for r in fetch_runs(repo) if r.get("event") == event]
     if len(runs) < 2:
-        print(f"Only {len(runs)} scheduled run(s) so far. Let it run a few hours "
-              f"and try again.\n(Manually-triggered runs are excluded - they say "
-              f"nothing about scheduling.)")
+        print(f"Only {len(runs)} '{event}' run(s) so far. Let it run a few hours "
+              f"and try again.\n"
+              f"(Pass 'schedule' as a 2nd argument to measure the fallback cron "
+              f"instead.)")
         return 0
 
     times = sorted(
@@ -56,6 +61,7 @@ def main() -> int:
     expected = int(span_hours * 60 / TARGET_MINUTES)
 
     print(f"Repo            : {repo}")
+    print(f"Trigger         : {event}")
     print(f"Scheduled runs  : {len(runs)} over {span_hours:.1f} hours")
     print(f"Expected at 5min: ~{expected}")
     print(f"Actually ran    : {len(runs)}   ({100*len(runs)/max(expected,1):.0f}% of schedule)")
@@ -85,8 +91,8 @@ def main() -> int:
         print("VERDICT: usable, but drifting. Fine for a job watcher; not for "
               "anything time-critical.")
     else:
-        print("VERDICT: the schedule is not being honoured. An always-on box "
-              "(Oracle) would be meaningfully better.")
+        print(f"VERDICT: '{event}' is not delivering. If this is "
+              "repository_dispatch, check the pg_cron job and the PAT.")
     return 0
 
 

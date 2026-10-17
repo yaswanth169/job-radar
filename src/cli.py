@@ -11,7 +11,7 @@ from src.models import Verdict
 from src.notify.telegram import Telegram, format_job, _strip_html
 from src.profile import load_profile
 from src.sources.registry import build_source, load_company_configs
-from src.store import Store, _job_dict
+from src.store import Store, open_store, _job_dict
 from src.watcher import Watcher, run_pass
 
 
@@ -74,7 +74,7 @@ def cmd_check(args) -> int:
     print(f"Totals: {total}")
 
     if args.send:
-        store = Store()
+        store = open_store()
         telegram = Telegram(dry_run=False)
         if not telegram.configured:
             print("Telegram is not configured - set TELEGRAM_BOT_TOKEN and TELEGRAM_CHAT_ID in .env")
@@ -92,7 +92,7 @@ def cmd_poll(args) -> int:
     scheduled runner invokes: fetch once, alert, persist, exit.
     """
     profile = load_profile()
-    store = Store()
+    store = open_store()
     telegram = Telegram(dry_run=args.dry_run)
     if not args.dry_run and not telegram.configured:
         print("Telegram is not configured - set TELEGRAM_BOT_TOKEN and TELEGRAM_CHAT_ID")
@@ -113,7 +113,7 @@ def cmd_poll(args) -> int:
 def cmd_seed(args) -> int:
     """Record everything currently posted as seen, without alerting."""
     profile = load_profile()
-    store = Store()
+    store = open_store()
     telegram = Telegram(dry_run=True)
     for config in _companies(args.company):
         res = run_pass(config, profile, store, telegram, seed_only=True)
@@ -124,7 +124,7 @@ def cmd_seed(args) -> int:
 
 def cmd_watch(args) -> int:
     profile = load_profile()
-    store = Store()
+    store = open_store()
     telegram = Telegram(dry_run=args.dry_run)
     if not args.dry_run and not telegram.configured:
         print("Telegram is not configured - set TELEGRAM_BOT_TOKEN and TELEGRAM_CHAT_ID in .env")
@@ -135,7 +135,7 @@ def cmd_watch(args) -> int:
 
 def cmd_explain(args) -> int:
     """Why did this job get the verdict it got?"""
-    store = Store()
+    store = open_store()
     record = store.find(args.job_id)
     if not record:
         print(f"No job with id '{args.job_id}' in the database yet. Run 'check' or 'watch' first.")
@@ -156,7 +156,7 @@ def cmd_explain(args) -> int:
 
 
 def cmd_status(args) -> int:
-    store = Store()
+    store = open_store()
     print("Database:", store.db_path)
     print("Jobs    :", store.counts())
     print("\nRecent passes:")

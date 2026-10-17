@@ -65,6 +65,7 @@ class Store:
                     ran_at      TEXT NOT NULL,
                     fetched     INTEGER,
                     new_jobs    INTEGER,
+                    enriched    INTEGER DEFAULT 0,
                     alerted     INTEGER,
                     error       TEXT
                 )
@@ -80,6 +81,39 @@ class Store:
             return conn.execute(
                 "SELECT 1 FROM jobs WHERE job_key = ?", (job_key,)
             ).fetchone() is not None
+
+    def known_verdicts(self, company: Optional[str] = None) -> dict:
+        """Map of job_key -> stored verdict. Mirrors SupabaseStore.
+
+        Cheap here, but the watcher uses it so the remote backend costs
+        one request per poll rather than one per job.
+        """
+        sql = "SELECT job_key, verdict FROM jobs"
+        args: tuple = ()
+        if company:
+            sql += " WHERE company = ?"
+            args = (company,)
+        with self._connect() as conn:
+            return {r["job_key"]: r["verdict"] for r in conn.execute(sql, args).fetchall()}
+
+    def known_keys(self, company: Optional[str] = None) -> set:
+        return set(self.known_verdicts(company))
+
+    def prune_runs(self, keep: int = 1000) -> int:
+        with self._connect() as conn:
+            row = conn.execute(
+                "SELECT id FROM runs ORDER BY id DESC LIMIT 1 OFFSET ?", (keep,)
+            ).fetchone()
+            if not row:
+                return 0
+            conn.execute("DELETE FROM runs WHERE id < ?", (row["id"],))
+            conn.commit()
+            return int(row["id"])
+
+    def ping(self) -> bool:
+        with self._connect() as conn:
+            conn.execute("SELECT 1 FROM jobs LIMIT 1").fetchone()
+        return True
 
     def verdict_of(self, job_key: str) -> Optional[str]:
         """The verdict recorded when we first judged this job.
@@ -162,13 +196,14 @@ class Store:
         fetched: int = 0,
         new_jobs: int = 0,
         alerted: int = 0,
+        enriched: int = 0,
         error: str = "",
     ) -> None:
         with self._connect() as conn:
             conn.execute(
-                "INSERT INTO runs (company, ran_at, fetched, new_jobs, alerted, error) "
-                "VALUES (?, ?, ?, ?, ?, ?)",
-                (company, _now(), fetched, new_jobs, alerted, error or None),
+                "INSERT INTO runs (company, ran_at, fetched, new_jobs, enriched, alerted, error) "
+                "VALUES (?, ?, ?, ?, ?, ?, ?)",
+                (company, _now(), fetched, new_jobs, enriched, alerted, error or None),
             )
             conn.commit()
 
@@ -177,6 +212,19 @@ class Store:
             return conn.execute(
                 "SELECT * FROM runs ORDER BY id DESC LIMIT ?", (limit,)
             ).fetchall()
+
+
+def open_store(db_path: Path | str | None = None):
+    """Pick the backend.
+
+    SUPABASE_URL set -> Supabase (shared state, many runners).
+    Otherwise        -> local SQLite, so tests and offline work keep running.
+    """
+    import os
+    if os.getenv("SUPABASE_URL") and os.getenv("SUPABASE_SERVICE_ROLE_KEY") and db_path is None:
+        from src.store_supabase import SupabaseStore
+        return SupabaseStore()
+    return Store(db_path)
 
 
 def _job_dict(job: Job, match: MatchResult) -> dict:

@@ -162,7 +162,14 @@ python tests/run_all.py
 - **`UNKNOWN` is a first-class state**, not the string "Not specified".
 - **Jobs are marked delivered only after Telegram confirms.** A failed send
   queues the job for the next cycle instead of silencing it forever.
-- **State is a local SQLite file**, not a CI cache that can be evicted.
+- **State is shared, not local.** Supabase Postgres holds it, so several
+  runners can poll independently and still never double-alert. Falls back to
+  local SQLite automatically when `SUPABASE_URL` is unset, which keeps the
+  tests offline.
+- **Scheduling and execution are split.** Supabase `pg_cron` keeps time;
+  GitHub Actions runs the Python. GitHub's `schedule` trigger was measured on
+  this repo delivering **4%** of requested runs, while event triggers
+  (`repository_dispatch`, `push`) fire immediately.
 
 ## Layout
 
@@ -173,7 +180,8 @@ src/sources/phenom.py      Cisco + any Phenom site (search + full JD)
 src/matching/experience.py parse "1+ years" out of prose
 src/matching/seniority.py  title + requisition type
 src/matching/verdict.py    APPLY / CHECK / SKIP
-src/store.py               SQLite, dedup, delivery queue
+src/store.py               SQLite backend + backend selection
+src/store_supabase.py      Supabase/Postgres backend (shared state)
 src/notify/telegram.py     alerts
 src/watcher.py             the loop
 ```
