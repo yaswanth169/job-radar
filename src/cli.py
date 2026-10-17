@@ -8,7 +8,7 @@ import sys
 
 from src.matching.verdict import evaluate
 from src.models import Verdict
-from src.notify.telegram import Telegram, format_job, _strip_html
+from src.notify.telegram import Telegram, format_job, load_recipients, _strip_html
 from src.profile import load_profile
 from src.sources.registry import build_source, load_company_configs
 from src.store import Store, open_store, _job_dict
@@ -172,7 +172,23 @@ def cmd_test_telegram(args) -> int:
     if not args.dry_run and not t.configured:
         print("Telegram is not configured - set TELEGRAM_BOT_TOKEN and TELEGRAM_CHAT_ID in .env")
         return 1
-    return 0 if t.send_test() else 1
+
+    print(f"Recipients configured: {len(t.recipients)}")
+    for r in t.recipients:
+        print(f"  {r.label:12} chat={r.chat_id} bot={r.token.split(':')[0]}")
+    if args.dry_run:
+        return 0 if t.send_test() else 1
+
+    # Report per recipient rather than one combined pass/fail, so a
+    # single broken bot is obvious instead of hiding behind the others.
+    text = "\U0001F7E2 <b>job-radar</b>\nTelegram is wired up correctly."
+    failed = 0
+    for r in t.recipients:
+        ok = t._post(r, text)
+        print(f"  {'OK  ' if ok else 'FAIL'} {r.label} -> {r.chat_id}")
+        if not ok:
+            failed += 1
+    return 1 if failed else 0
 
 
 def main(argv=None) -> None:
