@@ -74,6 +74,14 @@ CASES = [
     # "more than N years" is still a requirement when nothing says history
     ("The role requires more than 3 years of experience in "
      "distributed systems.",                                 S.STATED, 3.0,  None),
+    # --- verbatim from PayPal's Site Reliability Engineer, Chennai.
+    # The company line and the real floor sit in the same description;
+    # reading the first number found reported 25 years and skipped a job
+    # the candidate qualifies for.
+    ("The Company PayPal has been revolutionizing commerce globally for "
+     "more than 25 years. Minimum Qualifications: 1+ years relevant "
+     "experience and a Bachelor's degree OR Any equivalent combination "
+     "of education and experience.",                         S.STATED, 1.0,  None),
 ]
 
 def run():

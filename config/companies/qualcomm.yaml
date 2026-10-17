@@ -29,8 +29,8 @@ max_pages: 5
 
 # Mandatory here, not an optimisation: the search response carries no
 # description at all, so without this every job is UNKNOWN. The JD comes
-# from the job page's schema.org JobPosting blob. Only ever fetched for a
-# job we have not seen before.
+# from position_details, the detail endpoint the site itself calls. Only
+# ever fetched for a job we have not seen before.
 fetch_details: true
 
 # Qualcomm names its early-career software roles "Engineer" and "Associate

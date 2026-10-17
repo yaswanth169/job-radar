@@ -1,0 +1,43 @@
+# PayPal - Eightfold AI career site, the same platform as Qualcomm.
+# Verified: /api/pcsx/search and /api/pcsx/position_details both answer
+# with no cookies and no token, exactly as they do on the Qualcomm tenant.
+
+name: PayPal
+adapter: eightfold
+enabled: true
+
+# PayPal is hosted on Eightfold's own domain rather than its own, so the
+# tenant cannot be inferred from the host the way careers.qualcomm.com
+# gives away "qualcomm.com". Left unset, the adapter would derive
+# "eightfold.ai" and every search would come back empty.
+base_url: https://paypal.eightfold.ai
+domain: paypal.com
+
+poll_seconds: 300
+
+filters:
+  location: India
+
+keywords: ""
+
+# Pages of 10, not jobs. PayPal India is a small board - 15 open roles,
+# posting roughly one a day - so the fetch stops after two pages anyway.
+# Three is headroom for a burst and costs nothing: the loop exits as soon
+# as it has seen the reported total.
+max_pages: 3
+
+# Mandatory, not an optimisation: Eightfold's search response carries no
+# description at all, so without this every job is UNKNOWN. The JD comes
+# from position_details, and only for a job we have not seen before.
+fetch_details: true
+
+# Same reasoning as Qualcomm: a title whitelist written around one
+# employer's vocabulary throws away another's. Cisco's list has
+# "site reliability" but not "security engineer", "analyst" or
+# "associate engineer", and PayPal uses all of those.
+#
+# Measured on all 15 India jobs it currently changes nothing - the
+# seniority classifier already drops 14 of them on Sr/Lead/Staff titles -
+# so this is guarding against the next posting, not today's.
+roles:
+  want: []
