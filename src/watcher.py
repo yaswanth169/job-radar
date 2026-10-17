@@ -31,6 +31,9 @@ class PassResult:
     enriched: int = 0
     alerted: int = 0
     by_verdict: Optional[Dict[str, int]] = None
+    # Who actually received the alerts: {label: {status: count}}. Empty
+    # when nothing was sent, which is an absence of news, not good news.
+    delivery: Optional[Dict[str, Dict[str, int]]] = None
     error: str = ""
 
 
@@ -119,17 +122,25 @@ def run_pass(
 
     to_send = retry + fresh
     if to_send:
-        delivered = telegram.send_jobs(to_send)
-        for item in delivered:
+        report = telegram.send_jobs(to_send)
+        for item in report.delivered:
             store.mark_notified(f"{item['company'].lower()}:{item['job_id']}")
-        result.alerted = len(delivered)
-        missing = len(to_send) - len(delivered)
+        result.alerted = len(report.delivered)
+        result.delivery = report.outcomes
+        missing = len(to_send) - len(report.delivered)
         if missing:
             logger.warning("%d alert(s) undelivered, queued for next cycle", missing)
+        if report.unhealthy:
+            # Loud here as well as in the database: a rejected recipient
+            # does not fail the run, so nothing else would mark the pass.
+            logger.error(
+                "%s: alerts did not reach %s", config.name,
+                ", ".join(report.unhealthy),
+            )
 
     store.log_run(
         config.name, result.fetched, result.new_jobs,
-        result.alerted, result.enriched,
+        result.alerted, result.enriched, delivery=result.delivery,
     )
     return result
 

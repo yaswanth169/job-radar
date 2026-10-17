@@ -7,7 +7,11 @@ from unittest import mock
 
 import requests
 
-from src.notify.telegram import Recipient, Telegram, load_recipients
+# Aliased: this module already uses FAILED for its own results list, and
+# letting the status constant shadow it made a comparison silently wrong.
+from src.notify.telegram import (FAILED as S_FAILED, OK as S_OK,
+                                 REJECTED as S_REJECTED, Recipient, Telegram,
+                                 load_recipients, resolved)
 
 PASSED = []
 FAILED = []
@@ -49,8 +53,9 @@ def test_both_recipients_get_the_same_text():
     api = FakeApi()
     tg = Telegram(recipients=[R1, R2])
     with mock.patch("requests.post", api), mock.patch("time.sleep"):
-        ok = tg.send("<b>hello</b>")
-    check("send returns True when all deliver", ok is True)
+        out = tg.send("<b>hello</b>")
+    check("every recipient reported ok", out == {"primary": S_OK, "recipient2": S_OK})
+    check("all resolved", resolved(out) is True)
     check("one post per recipient", len(api.sent) == 2)
     check("each went through its own bot", {s[0] for s in api.sent} == {"111:aaa", "222:bbb"})
     check("each went to its own chat", {s[1] for s in api.sent} == {"1001", "2002"})
@@ -61,8 +66,10 @@ def test_transient_failure_leaves_job_queued():
     api = FakeApi({"222:bbb": FakeResponse(500, "server error")})
     tg = Telegram(recipients=[R1, R2])
     with mock.patch("requests.post", api), mock.patch("time.sleep"):
-        ok = tg.send("hi")
-    check("transient failure -> not resolved (stays queued)", ok is False)
+        out = tg.send("hi")
+    check("transient failure -> not resolved (stays queued)", resolved(out) is False)
+    check("the failure is attributed to the right person",
+          out == {"primary": S_OK, "recipient2": S_FAILED})
     check("the healthy recipient still got it", ("111:aaa", "1001", "hi") in api.sent)
     check("transient failure was retried 3x", sum(1 for s in api.sent if s[0] == "222:bbb") == 3)
 
@@ -72,8 +79,10 @@ def test_permanent_rejection_does_not_jam_the_queue():
     api = FakeApi({"222:bbb": FakeResponse(403, "bot was blocked by the user")})
     tg = Telegram(recipients=[R1, R2])
     with mock.patch("requests.post", api), mock.patch("time.sleep"):
-        ok = tg.send("hi")
-    check("permanent rejection -> resolved (no infinite duplicates)", ok is True)
+        out = tg.send("hi")
+    check("permanent rejection -> resolved (no infinite duplicates)", resolved(out) is True)
+    check("rejection is reported, not silently counted as success",
+          out == {"primary": S_OK, "recipient2": S_REJECTED})
     check("permanent rejection not retried", sum(1 for s in api.sent if s[0] == "222:bbb") == 1)
     check("healthy recipient delivered once", sum(1 for s in api.sent if s[0] == "111:aaa") == 1)
 
@@ -83,16 +92,19 @@ def test_send_jobs_marks_only_fully_resolved():
     tg = Telegram(recipients=[R1, R2])
     jobs = [{"company": "Cisco", "job_id": "1", "title": "SWE", "verdict": "APPLY"}]
     with mock.patch("requests.post", api), mock.patch("time.sleep"):
-        delivered = tg.send_jobs(jobs)
-    check("job not marked delivered while a recipient is retryable", delivered == [])
+        report = tg.send_jobs(jobs)
+    check("job not marked delivered while a recipient is retryable", report.delivered == [])
+    check("the outcome is still recorded per recipient",
+          report.outcomes == {"primary": {S_OK: 1}, "recipient2": {S_FAILED: 1}})
+    check("the broken recipient is flagged", report.unhealthy == ["recipient2"])
 
 
 def test_single_recipient_behaves_exactly_as_before():
     api = FakeApi()
     tg = Telegram(recipients=[R1])
     with mock.patch("requests.post", api), mock.patch("time.sleep"):
-        ok = tg.send("hi")
-    check("single recipient still delivers", ok is True and len(api.sent) == 1)
+        out = tg.send("hi")
+    check("single recipient still delivers", resolved(out) and len(api.sent) == 1)
 
 
 def test_env_loading():

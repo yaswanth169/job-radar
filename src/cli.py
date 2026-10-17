@@ -3,9 +3,11 @@
 from __future__ import annotations
 
 import argparse
+from datetime import datetime, timezone
 import logging
 import sys
 
+from src.health import HEARTBEAT_MARKER, assess, should_alert
 from src.matching.verdict import evaluate
 from src.models import Verdict
 from src.notify.telegram import Telegram, format_job, load_recipients, _strip_html
@@ -191,6 +193,44 @@ def cmd_test_telegram(args) -> int:
     return 1 if failed else 0
 
 
+def cmd_heartbeat(args) -> int:
+    """Report whether the radar is alive. Run on its own schedule.
+
+    Exits non-zero when something is wrong, so the workflow goes red even
+    if the Telegram alert itself cannot be delivered - which is exactly
+    the case where the alert matters most.
+    """
+    store = open_store()
+    telegram = Telegram(dry_run=args.dry_run)
+    companies = [c.name for c in _companies(None)]
+
+    rows = store.last_runs(400)
+    labels = [r.label for r in telegram.recipients]
+    tokens = {} if args.dry_run else telegram.token_health()
+    health = assess(rows, companies, tokens, recipients=labels)
+
+    print(f"checked {len(companies)} compan{'y' if len(companies)==1 else 'ies'} "
+          f"over {len(rows)} run records")
+    for note in health.notes:
+        print(f"  ok      {note}")
+    for problem in health.problems:
+        print(f"  PROBLEM {problem}")
+
+    if health.ok:
+        print("\nhealthy - staying quiet")
+        return 0
+
+    if not should_alert(rows, datetime.now(timezone.utc)):
+        print("\nalready alerted recently - staying quiet to avoid repeating")
+        return 1
+
+    telegram.send(health.report())
+    # Recorded as a run so the throttle above can see it next time.
+    store.log_run(HEARTBEAT_MARKER, error="; ".join(health.problems)[:300])
+    print("\nalert sent")
+    return 1
+
+
 def main(argv=None) -> None:
     parser = argparse.ArgumentParser(prog="job-radar", description="Experience-aware job watcher")
     parser.add_argument("-v", "--verbose", action="store_true")
@@ -225,6 +265,10 @@ def main(argv=None) -> None:
 
     p = sub.add_parser("status", help="database and recent run summary")
     p.set_defaults(func=cmd_status)
+
+    p = sub.add_parser("heartbeat", help="alert if the radar has gone quiet or undelivered")
+    p.add_argument("--dry-run", action="store_true", help="print the verdict, send nothing")
+    p.set_defaults(func=cmd_heartbeat)
 
     p = sub.add_parser("test-telegram", help="send a test message")
     p.add_argument("--dry-run", action="store_true")

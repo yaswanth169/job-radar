@@ -43,6 +43,8 @@ class SupabaseStore:
                 "SupabaseStore needs SUPABASE_URL and SUPABASE_SERVICE_ROLE_KEY"
             )
         self.rest = f"{self.url}/rest/v1"
+        # Cleared the first time Postgres tells us the column is not there.
+        self._delivery_column = True
         self._session = requests.Session()
         self._session.headers.update({
             "apikey": self.key,
@@ -187,15 +189,33 @@ class SupabaseStore:
         alerted: int = 0,
         enriched: int = 0,
         error: str = "",
+        delivery: Optional[dict] = None,
     ) -> None:
+        record = {
+            "company": company, "ran_at": _now(),
+            "fetched": fetched, "new_jobs": new_jobs,
+            "enriched": enriched, "alerted": alerted,
+            "error": error or None,
+        }
+        if delivery and self._delivery_column:
+            record["delivery"] = delivery
+        try:
+            self._post_run(record)
+        except RuntimeError as exc:
+            # The delivery column is added by hand in the dashboard, so the
+            # code has to survive running against a table that predates it.
+            # Losing one field is acceptable; losing the run record is not.
+            if "delivery" not in record or "delivery" not in str(exc):
+                raise
+            logger.warning("runs.delivery column missing - logging without it")
+            self._delivery_column = False
+            record.pop("delivery")
+            self._post_run(record)
+
+    def _post_run(self, record: dict) -> None:
         self._request(
             "POST", "runs",
-            data=json.dumps({
-                "company": company, "ran_at": _now(),
-                "fetched": fetched, "new_jobs": new_jobs,
-                "enriched": enriched, "alerted": alerted,
-                "error": error or None,
-            }),
+            data=json.dumps(record),
             headers={"Prefer": "return=minimal"},
         )
 

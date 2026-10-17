@@ -67,11 +67,16 @@ class Store:
                     new_jobs    INTEGER,
                     enriched    INTEGER DEFAULT 0,
                     alerted     INTEGER,
-                    error       TEXT
+                    error       TEXT,
+                    delivery    TEXT
                 )
                 """
             )
             conn.execute("CREATE INDEX IF NOT EXISTS idx_jobs_notified ON jobs(notified)")
+            # Databases created before per-recipient delivery was recorded.
+            have = {r[1] for r in conn.execute("PRAGMA table_info(runs)")}
+            if "delivery" not in have:
+                conn.execute("ALTER TABLE runs ADD COLUMN delivery TEXT")
             conn.commit()
 
     # ---------- jobs ----------
@@ -198,20 +203,35 @@ class Store:
         alerted: int = 0,
         enriched: int = 0,
         error: str = "",
+        delivery: Optional[dict] = None,
     ) -> None:
         with self._connect() as conn:
             conn.execute(
-                "INSERT INTO runs (company, ran_at, fetched, new_jobs, enriched, alerted, error) "
-                "VALUES (?, ?, ?, ?, ?, ?, ?)",
-                (company, _now(), fetched, new_jobs, enriched, alerted, error or None),
+                "INSERT INTO runs (company, ran_at, fetched, new_jobs, enriched, alerted, error, delivery) "
+                "VALUES (?, ?, ?, ?, ?, ?, ?, ?)",
+                (company, _now(), fetched, new_jobs, enriched, alerted, error or None,
+                 json.dumps(delivery) if delivery else None),
             )
             conn.commit()
 
-    def last_runs(self, limit: int = 10) -> List[sqlite3.Row]:
+    def last_runs(self, limit: int = 10) -> List[dict]:
+        """Plain dicts, matching SupabaseStore - including a decoded
+        `delivery`, which Postgres returns as jsonb and SQLite as text."""
         with self._connect() as conn:
-            return conn.execute(
+            rows = conn.execute(
                 "SELECT * FROM runs ORDER BY id DESC LIMIT ?", (limit,)
             ).fetchall()
+        out = []
+        for row in rows:
+            item = dict(row)
+            raw = item.get("delivery")
+            if isinstance(raw, str):
+                try:
+                    item["delivery"] = json.loads(raw)
+                except ValueError:
+                    item["delivery"] = None
+            out.append(item)
+        return out
 
 
 def open_store(db_path: Path | str | None = None):

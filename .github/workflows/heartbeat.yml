@@ -1,0 +1,47 @@
+name: Job Radar Heartbeat
+
+# Deliberately a separate workflow on a separate trigger.
+#
+# The poll is driven by Supabase pg_cron via repository_dispatch. If that
+# chain breaks, the poll simply stops - and a check living inside the poll
+# would stop with it, reporting nothing. This one runs on GitHub's own
+# schedule, so it still fires when pg_cron is the thing that died.
+#
+# It cannot cover everything: if GitHub Actions itself is disabled, nothing
+# here runs either. Watching that would need a third system outside both.
+on:
+  schedule:
+    - cron: "17 */3 * * *"   # every 3 hours, off the hour to dodge the rush
+  workflow_dispatch:
+
+concurrency:
+  group: job-radar-heartbeat
+  cancel-in-progress: false
+
+permissions:
+  contents: read
+
+jobs:
+  heartbeat:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+          cache: pip
+
+      - run: pip install -r requirements.txt
+
+      - name: Check the radar is alive and delivering
+        env:
+          SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
+          SUPABASE_SERVICE_ROLE_KEY: ${{ secrets.SUPABASE_SERVICE_ROLE_KEY }}
+          TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
+          TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
+          TELEGRAM_BOT_TOKEN_2: ${{ secrets.TELEGRAM_BOT_TOKEN_2 }}
+          TELEGRAM_CHAT_ID_2: ${{ secrets.TELEGRAM_CHAT_ID_2 }}
+        run: python -m src heartbeat

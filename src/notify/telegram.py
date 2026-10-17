@@ -10,6 +10,7 @@ import html
 import logging
 import os
 import time
+from dataclasses import dataclass, field
 from typing import Dict, List, Optional
 
 import requests
@@ -19,7 +20,15 @@ load_dotenv()
 logger = logging.getLogger(__name__)
 
 API = "https://api.telegram.org/bot{token}/sendMessage"
+GET_ME = "https://api.telegram.org/bot{token}/getMe"
 MAX_LEN = 4000
+
+# What became of one message for one person. The distinction that matters
+# is REJECTED vs FAILED: a rejection will never be accepted no matter how
+# often we try, a failure is worth another go next cycle.
+OK = "ok"
+REJECTED = "rejected"
+FAILED = "failed"
 
 MAX_TITLE = 120
 MAX_LOCATION = 80
@@ -152,6 +161,40 @@ def load_recipients() -> List[Recipient]:
     return found
 
 
+def resolved(outcomes: Dict[str, str]) -> bool:
+    """True once nobody is still owed a retry.
+
+    An empty result means nothing was attempted, which is not success.
+    """
+    return bool(outcomes) and all(s != FAILED for s in outcomes.values())
+
+
+@dataclass
+class Delivery:
+    """What happened to a batch of messages, per person.
+
+    `delivered` keeps the old contract - the jobs safe to mark notified.
+    `outcomes` is the part that was previously thrown away: who actually
+    received them. Without it a recipient whose bot is dead looks exactly
+    like one who is reading every alert.
+    """
+
+    delivered: List[Dict] = field(default_factory=list)
+    outcomes: Dict[str, Dict[str, int]] = field(default_factory=dict)
+
+    def record(self, label: str, status: str) -> None:
+        tally = self.outcomes.setdefault(label, {})
+        tally[status] = tally.get(status, 0) + 1
+
+    @property
+    def unhealthy(self) -> List[str]:
+        """Recipients who did not cleanly receive everything."""
+        return sorted(
+            label for label, tally in self.outcomes.items()
+            if tally.get(REJECTED) or tally.get(FAILED)
+        )
+
+
 class Telegram:
     def __init__(
         self,
@@ -172,12 +215,14 @@ class Telegram:
     def configured(self) -> bool:
         return any(r.token and r.chat_id for r in self.recipients)
 
-    def _post(self, recipient: Recipient, text: str) -> bool:
-        """Deliver to one recipient. True = done with this recipient.
+    def _post(self, recipient: Recipient, text: str) -> str:
+        """Deliver to one recipient. Returns OK, REJECTED or FAILED.
 
-        A permanent rejection also returns True: the message will never
-        be accepted, so holding the job unsent would re-send it to
-        everyone else on every cycle, forever.
+        REJECTED still counts as resolved: the message will never be
+        accepted, so holding the job unsent would re-send it to everyone
+        else on every cycle, forever. It is reported separately from OK
+        precisely because that silence is otherwise indistinguishable
+        from success.
         """
         payload = {
             "chat_id": recipient.chat_id,
@@ -191,7 +236,7 @@ class Telegram:
             try:
                 resp = requests.post(url, json=payload, timeout=30)
                 resp.raise_for_status()
-                return True
+                return OK
             except requests.HTTPError as exc:
                 status = exc.response.status_code if exc.response is not None else None
                 if status is not None and 400 <= status < 500 and status != 429:
@@ -200,7 +245,7 @@ class Telegram:
                         "Telegram permanently rejected the message for %s (%s): %s",
                         recipient.label, status, body,
                     )
-                    return True
+                    return REJECTED
                 last = exc
             except (requests.RequestException, OSError) as exc:
                 last = exc
@@ -209,58 +254,78 @@ class Telegram:
             "Telegram delivery to %s failed, will retry next cycle: %s",
             recipient.label, last,
         )
-        return False
+        return FAILED
 
-    def send(self, text: str) -> bool:
+    def send(self, text: str) -> Dict[str, str]:
         """Send the same message to every recipient.
 
-        Returns True only once every recipient has resolved - delivered
-        or permanently rejected. A transient failure for anyone leaves
-        the job queued, which is what keeps nobody silently skipped.
+        Returns each recipient's outcome. Callers that only care whether
+        the job is finished with should use `resolved()` - a job is only
+        done once nobody is still owed a retry.
         """
         if self.dry_run:
             print("\n" + "-" * 60)
             print(_strip_html(text))
             print("-" * 60)
-            return True
+            return {r.label: OK for r in self.recipients} or {"dry-run": OK}
         if not self.configured:
             logger.error(
                 "Telegram not configured: set TELEGRAM_BOT_TOKEN and TELEGRAM_CHAT_ID"
             )
-            return False
+            return {}
 
-        resolved = True
+        outcomes: Dict[str, str] = {}
         for i, recipient in enumerate(self.recipients):
-            if not self._post(recipient, text):
-                resolved = False
+            outcomes[recipient.label] = self._post(recipient, text)
             if i < len(self.recipients) - 1:
                 time.sleep(0.3)
-        return resolved
+        return outcomes
 
-    def send_jobs(self, jobs: List[Dict]) -> List[Dict]:
-        """Send one message per job. Returns only what was delivered.
+    def send_jobs(self, jobs: List[Dict]) -> Delivery:
+        """Send one message per job, reporting what reached whom.
 
         Each send is isolated, so one failure never abandons the rest -
         and undelivered jobs stay queued for the next cycle.
         """
-        delivered: List[Dict] = []
+        report = Delivery()
         for i, job in enumerate(jobs):
             try:
-                if self.send(format_job(job)):
-                    delivered.append(job)
+                outcomes = self.send(format_job(job))
+                for label, status in outcomes.items():
+                    report.record(label, status)
+                if resolved(outcomes):
+                    report.delivered.append(job)
             except Exception as exc:
                 logger.warning(
                     "Telegram send failed for %s (%s) - will retry next cycle: %s",
                     job.get("title"), job.get("job_id"), exc,
                 )
+                for r in self.recipients:
+                    report.record(r.label, FAILED)
             if i < len(jobs) - 1:
                 time.sleep(0.5)
-        return delivered
+        return report
 
     def send_test(self) -> bool:
-        return self.send(
+        return resolved(self.send(
             "\U0001F7E2 <b>job-radar</b>\nTelegram is wired up correctly."
-        )
+        ))
+
+    def token_health(self) -> Dict[str, str]:
+        """Ask Telegram whether each bot token is still alive.
+
+        A revoked token is the one delivery fault we can detect without
+        sending anything. A chat the person has blocked is not: that only
+        surfaces on a real send, which is why outcomes are persisted.
+        """
+        health: Dict[str, str] = {}
+        for recipient in self.recipients:
+            try:
+                resp = requests.get(GET_ME.format(token=recipient.token), timeout=20)
+                health[recipient.label] = OK if resp.ok else REJECTED
+            except (requests.RequestException, OSError):
+                health[recipient.label] = FAILED
+        return health
 
 
 def _strip_html(text: str) -> str:
