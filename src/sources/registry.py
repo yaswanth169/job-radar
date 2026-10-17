@@ -9,12 +9,14 @@ import yaml
 
 from src.models import CompanyConfig
 from src.sources.base import BaseSource
+from src.sources.eightfold import EightfoldSource
 from src.sources.phenom import PhenomSource
 
 ROOT = Path(__file__).resolve().parent.parent.parent
 
 ADAPTERS: Dict[str, Type[BaseSource]] = {
     "phenom": PhenomSource,
+    "eightfold": EightfoldSource,
 }
 
 

@@ -43,6 +43,8 @@ def run_pass(
 ) -> PassResult:
     """Fetch one company, evaluate, persist, notify."""
     result = PassResult(company=config.name, by_verdict={})
+    # A company may override the role whitelist - see Profile.for_company.
+    profile = profile.for_company(config.extra.get("roles"))
     try:
         source = build_source(config)
         jobs = source.fetch()

@@ -72,3 +72,50 @@ def post_json(
             time.sleep(delay)
     assert last is not None
     raise last
+
+
+def get_json(
+    url: str,
+    params: Optional[Dict[str, Any]] = None,
+    headers: Optional[Dict[str, str]] = None,
+    timeout: int = 30,
+    attempts: int = 3,
+) -> Any:
+    """GET a JSON endpoint, retrying only what is worth retrying."""
+    return _get(url, params, headers, timeout, attempts).json()
+
+
+def get_text(
+    url: str,
+    params: Optional[Dict[str, Any]] = None,
+    headers: Optional[Dict[str, str]] = None,
+    timeout: int = 30,
+    attempts: int = 3,
+) -> str:
+    """GET a page as text. Used where a JD is only in rendered HTML."""
+    return _get(url, params, headers, timeout, attempts).text
+
+
+def _get(url, params, headers, timeout, attempts):
+    session = get_session()
+    last: Optional[Exception] = None
+    for attempt in range(attempts):
+        try:
+            resp = session.get(url, params=params, headers=headers or {}, timeout=timeout)
+            if resp.status_code in (403, 429):
+                raise Blocked(f"HTTP {resp.status_code} from {url}")
+            resp.raise_for_status()
+            return resp
+        except Blocked:
+            raise
+        except requests.HTTPError as exc:
+            status = exc.response.status_code if exc.response is not None else None
+            if status is not None and 400 <= status < 500:
+                raise
+            last = exc
+        except (requests.RequestException, ValueError, OSError) as exc:
+            last = exc
+        if attempt < attempts - 1:
+            time.sleep((2 ** attempt) + random.uniform(0, 0.75))
+    assert last is not None
+    raise last

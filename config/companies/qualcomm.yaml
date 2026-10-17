@@ -1,0 +1,47 @@
+# Qualcomm - Eightfold AI career site.
+# Verified: /api/pcsx/search answers with no cookies and no token.
+# (The /api/apply/v2/jobs endpoint most Eightfold tenants use is disabled
+#  here - it returns 403 "Not authorized for PCSX".)
+
+name: Qualcomm
+adapter: eightfold
+enabled: true
+
+base_url: https://careers.qualcomm.com
+domain: qualcomm.com
+
+poll_seconds: 300
+
+# Unlike Cisco there is NO early-career filter to lean on. The site
+# advertises a `seniority` facet but ignores it - seniority=Entry Level
+# still returns all 2100 jobs. Location is the only cut the server honours,
+# so everything else is decided by reading the description.
+filters:
+  location: India
+
+keywords: ""
+
+# The API caps a page at 10 whatever we ask for, so this is pages, not jobs.
+# 5 pages = the 50 newest jobs. Measured on Qualcomm India that spans about
+# three days of postings (they post ~10-20 per weekday and nothing at all at
+# weekends), so a job cannot scroll out of the window between two polls.
+max_pages: 5
+
+# Mandatory here, not an optimisation: the search response carries no
+# description at all, so without this every job is UNKNOWN. The JD comes
+# from the job page's schema.org JobPosting blob. Only ever fetched for a
+# job we have not seen before.
+fetch_details: true
+
+# Qualcomm names its early-career software roles "Engineer" and "Associate
+# Engineer", so the profile's want-list - written around Cisco's vocabulary
+# ("software engineer", "backend", "sde"...) - threw away exactly the jobs
+# we are here for. Measured on the 50 newest India jobs: the want-list cut
+# 44 of them, including a literal "Associate Engineer" and two "Engineer"
+# roles asking for 1-3 and 2-5 years.
+#
+# An empty want-list means no title whitelist. The avoid-list still applies,
+# the seniority classifier still drops Senior/Staff/Lead titles (33 of the
+# 50), and the experience requirement in the description decides the rest.
+roles:
+  want: []

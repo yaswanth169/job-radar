@@ -3,7 +3,7 @@
 from __future__ import annotations
 
 import re
-from dataclasses import dataclass, field
+from dataclasses import dataclass, field, replace
 from pathlib import Path
 from typing import Any, Dict, List
 
@@ -42,6 +42,30 @@ class Profile:
             if re.search(rf"\b{re.escape(a_low)}\b", t):
                 return a
         return ""
+
+    def for_company(self, overrides: Dict[str, Any] | None) -> "Profile":
+        """A copy of this profile with a company's role overrides applied.
+
+        The want-list is a whitelist tuned to one employer's vocabulary, and
+        it does not travel. Cisco calls an early-career job "Software
+        Engineer"; Qualcomm calls the same thing "Engineer" or "Associate
+        Engineer", so Cisco's list silently discards exactly the roles we
+        are looking for. A company can therefore set its own list, or set
+        `want: []` to drop the title whitelist entirely and let the
+        experience parser decide - which is the honest default wherever the
+        ATS offers no early-career filter of its own.
+
+        The avoid-list is not overridden by default: it exists to exclude
+        whole professions, and that is not employer-specific.
+        """
+        if not overrides:
+            return self
+        clone = replace(self)
+        if "want" in overrides:
+            clone.want_roles = list(overrides.get("want") or [])
+        if "avoid" in overrides:
+            clone.avoid_roles = list(overrides.get("avoid") or [])
+        return clone
 
     def location_ok(self, job_location: str, job_country: str) -> bool:
         if self.allow_any_location:
